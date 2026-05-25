@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Shopmate.ia — AI Support Agent for Shopify</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A84C;--gold2:#e8c86a;--gold3:rgba(201,168,76,0.12);
+  --black:#070707;--dark:#0e0e0e;--card:#131313;
+  --text:#e8d5a3;--muted:#666;--white:#f5f0e8;
+  --font-display:'Cormorant Garamond',serif;
+  --font-mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:var(--font-display);overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.4}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid rgba(201,168,76,0.1);backdrop-filter:blur(20px);background:rgba(7,7,7,0.85)}
+.nav-logo{font-size:22px;font-weight:300;color:var(--gold);letter-spacing:2px}
+.nav-logo span{color:var(--white)}
+.nav-cta{background:var(--gold);color:var(--black);border:none;padding:10px 24px;font-family:var(--font-mono);font-size:12px;cursor:pointer;letter-spacing:1px;text-transform:uppercase}
+.nav-cta:hover{background:var(--gold2)}
+
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 40px 80px;position:relative;overflow:hidden}
+.hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.hero-tag{font-family:var(--font-mono);font-size:11px;color:var(--gold);letter-spacing:3px;text-transform:uppercase;margin-bottom:28px;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards}
+h1{font-size:clamp(52px,8vw,110px);font-weight:300;line-height:0.95;color:var(--white);margin-bottom:32px;opacity:0;animation:fadeUp 0.8s ease 0.4s forwards}
+h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{font-family:var(--font-mono);font-size:14px;color:var(--muted);max-width:500px;line-height:1.7;margin-bottom:48px;opacity:0;animation:fadeUp 0.8s ease 0.6s forwards}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp 0.8s ease 0.8s forwards}
+.btn-primary{background:var(--gold);color:var(--black);border:none;padding:16px 40px;font-family:var(--font-mono);font-size:13px;cursor:pointer;letter-spacing:1px;transition:all 0.2s}
+.btn-primary:hover{background:var(--gold2);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--gold);border:0.5px solid var(--gold);padding:16px 40px;font-family:var(--font-mono);font-size:13px;cursor:pointer;letter-spacing:1px;transition:all 0.2s}
+.btn-ghost:hover{background:var(--gold3)}
+.hero-stat-row{display:flex;gap:48px;margin-top:80px;opacity:0;animation:fadeUp 0.8s ease 1s forwards;flex-wrap:wrap;justify-content:center}
+.hero-stat .num{font-size:42px;font-weight:300;color:var(--gold);line-height:1}
+.hero-stat .label{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:1px}
+
+#demo{padding:100px 40px;display:flex;flex-direction:column;align-items:center;gap:60px}
+.section-tag{font-family:var(--font-mono);font-size:11px;color:var(--gold);letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:16px}
+.section-title{font-size:clamp(36px,5vw,64px);font-weight:300;text-align:center;line-height:1.1}
+.section-title em{font-style:italic;color:var(--gold)}
+.chat-preview{width:100%;max-width:400px;background:var(--dark);border:0.5px solid var(--gold);border-radius:16px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.6)}
+.cp-header{padding:14px 18px;background:#0f0f0f;border-bottom:0.5px solid rgba(201,168,76,0.2);display:flex;align-items:center;gap:10px}
+.cp-av{width:34px;height:34px;border-radius:50%;background:#1a1a1a;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--gold)}
+.cp-info .name{font-size:13px;color:var(--text)}
+.cp-info .st{font-size:11px;color:var(--gold);display:flex;align-items:center;gap:4px}
+.cp-info .st::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);display:inline-block}
+.cp-msgs{padding:16px;display:flex;flex-direction:column;gap:10px}
+.cp-msg{display:flex;gap:8px;align-items:flex-end;max-width:88%}
+.cp-msg.u{align-self:flex-end;flex-direction:row-reverse}
+.cp-bub{padding:9px 13px;font-size:12px;line-height:1.55;border-radius:12px;font-family:var(--font-mono)}
+.cp-msg.b .cp-bub{background:#1a1a1a;color:var(--text);border-radius:4px 12px 12px 12px;border:0.5px solid #222}
+.cp-msg.u .cp-bub{background:var(--gold);color:#000;font-weight:500;border-radius:12px 4px 12px 12px}
+.cp-av-sm{width:24px;height:24px;border-radius:50%;background:#1a1a1a;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--gold);flex-shrink:0}
+
+#features{padding:100px 40px;max-width:1100px;margin:0 auto}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;margin-top:60px}
+.feat-card{background:var(--card);padding:36px 32px;border:0.5px solid #1a1a1a;transition:border-color 0.2s}
+.feat-card:hover{border-color:rgba(201,168,76,0.3)}
+.feat-icon{font-size:28px;margin-bottom:20px}
+.feat-title{font-size:22px;font-weight:400;color:var(--white);margin-bottom:10px}
+.feat-desc{font-family:var(--font-mono);font-size:12px;color:var(--muted);line-height:1.7}
+
+/* PRICING 3 PLANS */
+#pricing{padding:100px 40px;display:flex;flex-direction:column;align-items:center}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;max-width:1000px;width:100%;margin-top:60px}
+.plan-card{background:var(--card);border:0.5px solid #1a1a1a;padding:44px 36px;position:relative;transition:border-color 0.2s}
+.plan-card:hover{border-color:rgba(201,168,76,0.3)}
+.plan-card.popular{border-color:var(--gold)}
+.plan-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;font-family:var(--font-mono);font-size:10px;padding:4px 16px;letter-spacing:2px;white-space:nowrap}
+.plan-name{font-family:var(--font-mono);font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:20px}
+.plan-activation{font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-bottom:8px}
+.plan-activation span{color:var(--gold)}
+.plan-price{font-size:56px;font-weight:300;color:var(--white);line-height:1}
+.plan-period{font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-bottom:36px;margin-top:4px}
+.plan-features{list-style:none;margin-bottom:40px;display:flex;flex-direction:column;gap:12px}
+.plan-features li{font-family:var(--font-mono);font-size:12px;color:var(--text);display:flex;align-items:flex-start;gap:10px;line-height:1.4}
+.plan-features li::before{content:'✦';color:var(--gold);font-size:9px;flex-shrink:0;margin-top:2px}
+.plan-features li.no{color:var(--muted)}
+.plan-features li.no::before{content:'—';color:#333}
+.plan-cta{width:100%;padding:14px;font-family:var(--font-mono);font-size:12px;letter-spacing:1px;cursor:pointer;transition:all 0.2s}
+.plan-card.popular .plan-cta{background:var(--gold);color:#000;border:none}
+.plan-card.popular .plan-cta:hover{background:var(--gold2)}
+.plan-card:not(.popular) .plan-cta{background:transparent;color:var(--gold);border:0.5px solid var(--gold)}
+.plan-card:not(.popular) .plan-cta:hover{background:var(--gold3)}
+
+/* TESTIMONIALS */
+#testimonials{padding:100px 40px;max-width:1100px;margin:0 auto}
+.test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2px;margin-top:60px}
+.test-card{background:var(--card);padding:32px;border:0.5px solid #1a1a1a;display:flex;flex-direction:column;gap:20px}
+.test-stars{color:var(--gold);font-size:13px;letter-spacing:2px}
+.test-quote{font-size:17px;font-weight:300;line-height:1.65;color:var(--white);font-style:italic}
+.test-author{display:flex;align-items:center;gap:12px;margin-top:auto}
+.test-initials{width:36px;height:36px;border-radius:50%;background:#1a1a1a;border:0.5px solid #333;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:12px;color:var(--gold);flex-shrink:0}
+.test-name{font-family:var(--font-mono);font-size:11px;color:var(--text)}
+.test-shop{font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-top:2px}
+
+#langs{padding:80px 40px;text-align:center}
+.lang-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:40px}
+.lang-pill{background:var(--card);border:0.5px solid #222;padding:8px 18px;font-family:var(--font-mono);font-size:12px;color:var(--muted);border-radius:20px}
+.divider{width:40px;height:0.5px;background:var(--gold);margin:0 auto 24px;opacity:0.5}
+
+#cta-final{padding:120px 40px;text-align:center;position:relative;overflow:hidden}
+#cta-final::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,168,76,0.06) 0%,transparent 70%)}
+.cta-title{font-size:clamp(40px,6vw,80px);font-weight:300;line-height:1.1;margin-bottom:32px}
+.cta-title em{font-style:italic;color:var(--gold)}
+
+footer{padding:40px;border-top:0.5px solid #1a1a1a;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-logo{font-size:18px;font-weight:300;color:var(--gold);letter-spacing:2px}
+.footer-copy{font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+
+#lang-switcher{position:fixed;bottom:28px;left:28px;z-index:999;display:flex;gap:6px;flex-wrap:wrap;max-width:180px}
+.ls-btn{background:rgba(14,14,14,0.9);border:0.5px solid #333;color:var(--muted);font-family:var(--font-mono);font-size:10px;padding:5px 10px;cursor:pointer;border-radius:4px;transition:all 0.15s}
+.ls-btn.active,.ls-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){nav{padding:16px 20px}#hero{padding:100px 24px 60px}.hero-stat-row{gap:28px}footer{flex-direction:column;text-align:center}#lang-switcher{bottom:20px;left:16px}.pricing-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="lang-switcher">
+  <button class="ls-btn active" onclick="setLang('en')">EN</button>
+  <button class="ls-btn" onclick="setLang('fr')">FR</button>
+  <button class="ls-btn" onclick="setLang('es')">ES</button>
+  <button class="ls-btn" onclick="setLang('de')">DE</button>
+  <button class="ls-btn" onclick="setLang('nl')">NL</button>
+  <button class="ls-btn" onclick="setLang('pt')">PT</button>
+</div>
+
+<nav>
+  <div class="nav-logo">Shopmate<span>.ia</span></div>
+  <button class="nav-cta" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})" data-i="nav_cta">Start Free Trial</button>
+</nav>
+
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-tag" data-i="hero_tag">AI Support Agent for Shopify</div>
+  <h1>Your store<br/>never <em>sleeps.</em></h1>
+  <p class="hero-sub" data-i="hero_sub">Shopmate.ia answers your customers 24/7 — orders, returns, recommendations — so you can focus on growing your business.</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})" data-i="hero_cta1">See Plans & Pricing</button>
+    <button class="btn-ghost" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})" data-i="hero_cta2">See it in action</button>
+  </div>
+  <div class="hero-stat-row">
+    <div class="hero-stat"><div class="num">24/7</div><div class="label" data-i="stat1">Always on</div></div>
+    <div class="hero-stat"><div class="num">&lt;2s</div><div class="label" data-i="stat2">Response time</div></div>
+    <div class="hero-stat"><div class="num">15+</div><div class="label" data-i="stat3">Languages</div></div>
+    <div class="hero-stat"><div class="num">5min</div><div class="label" data-i="stat4">Setup time</div></div>
+  </div>
+</section>
+
+<section id="demo">
+  <div>
+    <div class="section-tag" data-i="demo_tag">Live Preview</div>
+    <h2 class="section-title" data-i="demo_title">See <em>Shopmate.ia</em><br/>in action</h2>
+  </div>
+  <div class="chat-preview">
+    <div class="cp-header">
+      <div class="cp-av">S</div>
+      <div class="cp-info">
+        <div class="name">Shopmate.ia</div>
+        <div class="st" data-i="demo_status">Active 24/7</div>
+      </div>
+    </div>
+    <div class="cp-msgs">
+      <div class="cp-msg b"><div class="cp-av-sm">S</div><div class="cp-bub" data-i="demo_msg1">Hi! 👋 How can I help you today?</div></div>
+      <div class="cp-msg u"><div class="cp-bub" data-i="demo_msg2">Where is my order #1042?</div></div>
+      <div class="cp-msg b"><div class="cp-av-sm">S</div><div class="cp-bub" data-i="demo_msg3">Order #1042 is in transit 🚚 Expected delivery tomorrow before 6pm. Carrier: DHL. — Shopmate.ia</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="section-tag" data-i="feat_tag">What's included</div>
+  <h2 class="section-title" data-i="feat_title">Everything your<br/><em>customers need</em></h2>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">📦</div><div class="feat-title" data-i="f1t">Order Tracking</div><div class="feat-desc" data-i="f1d">Real-time order status, tracking numbers, estimated delivery — all without human intervention.</div></div>
+    <div class="feat-card"><div class="feat-icon">↩</div><div class="feat-title" data-i="f2t">Returns & Refunds</div><div class="feat-desc" data-i="f2d">Guides customers through return procedures step by step. No more support tickets.</div></div>
+    <div class="feat-card"><div class="feat-icon">✨</div><div class="feat-title" data-i="f3t">Product Recommendations</div><div class="feat-desc" data-i="f3d">Understands customer needs and recommends the right products. Increases average order value.</div></div>
+    <div class="feat-card"><div class="feat-icon">🌍</div><div class="feat-title" data-i="f4t">Auto Language Detection</div><div class="feat-desc" data-i="f4d">Automatically detects and responds in the customer's language. 15+ languages supported.</div></div>
+    <div class="feat-card"><div class="feat-icon">👤</div><div class="feat-title" data-i="f5t">Human Escalation</div><div class="feat-desc" data-i="f5d">Detects complex situations and seamlessly transfers to a human agent with full context.</div></div>
+    <div class="feat-card"><div class="feat-icon">⚡</div><div class="feat-title" data-i="f6t">5-Minute Setup</div><div class="feat-desc" data-i="f6d">One snippet in your theme.liquid. No plugins, no app store, no technical skills needed.</div></div>
+  </div>
+</section>
+
+<section id="testimonials">
+  <div class="section-tag" data-i="test_tag">Reviews</div>
+  <h2 class="section-title" data-i="test_title">What store owners <em>actually say</em></h2>
+  <div class="test-grid">
+
+    <div class="test-card">
+      <div class="test-stars">★★★★★</div>
+      <div class="test-quote" data-i="t1q">"Honestly didn't expect much at first. But after 2 weeks, my support emails went from 30/day to maybe 5. Customers get their answers instantly, even at midnight."</div>
+      <div class="test-author">
+        <div class="test-initials">SB</div>
+        <div><div class="test-name">Sophie B.</div><div class="test-shop" data-i="t1s">Lingerie & Loungewear · Lyon</div></div>
+      </div>
+    </div>
+
+    <div class="test-card">
+      <div class="test-stars">★★★★★</div>
+      <div class="test-quote" data-i="t2q">"I was doing customer support myself every evening after work. Now I just check in once a day. Shopmate handles the repetitive stuff — tracking, returns, sizing questions."</div>
+      <div class="test-author">
+        <div class="test-initials">KM</div>
+        <div><div class="test-name">Karim M.</div><div class="test-shop" data-i="t2s">Sneakers & Streetwear · Brussels</div></div>
+      </div>
+    </div>
+
+    <div class="test-card">
+      <div class="test-stars">★★★★☆</div>
+      <div class="test-quote" data-i="t3q">"Setup was genuinely fast, like 10 minutes max. The bot sometimes misses very specific product questions but for 90% of requests it's spot on. Good value for what it costs."</div>
+      <div class="test-author">
+        <div class="test-initials">AL</div>
+        <div><div class="test-name">Anaïs L.</div><div class="test-shop" data-i="t3s">Skincare & Cosmetics · Paris</div></div>
+      </div>
+    </div>
+
+    <div class="test-card">
+      <div class="test-stars">★★★★★</div>
+      <div class="test-quote" data-i="t4q">"My store sells internationally so the multilingual part was the main selling point. Customers write in Dutch, Spanish, English — it just handles it. No complaints so far."</div>
+      <div class="test-author">
+        <div class="test-initials">RV</div>
+        <div><div class="test-name">Roos V.</div><div class="test-shop" data-i="t4s">Home & Lifestyle · Amsterdam</div></div>
+      </div>
+    </div>
+
+    <div class="test-card">
+      <div class="test-stars">★★★★★</div>
+      <div class="test-quote" data-i="t5q">"Black Friday was the real test. We had 3x the normal traffic and zero extra support load. The bot handled everything. I was actually able to enjoy the weekend."</div>
+      <div class="test-author">
+        <div class="test-initials">TN</div>
+        <div><div class="test-name">Thomas N.</div><div class="test-shop" data-i="t5s">Electronics Accessories · Geneva</div></div>
+      </div>
+    </div>
+
+    <div class="test-card">
+      <div class="test-stars">★★★★☆</div>
+      <div class="test-quote" data-i="t6q">"Took me a week to fully trust it but now I barely think about support anymore. Would be nice to have more analytics on what customers ask most — but overall really happy."</div>
+      <div class="test-author">
+        <div class="test-initials">MC</div>
+        <div><div class="test-name">Marie-Claire D.</div><div class="test-shop" data-i="t6s">Kids Fashion · Bordeaux</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="langs">
+  <div class="section-tag" data-i="lang_tag">Multilingual</div>
+  <h2 class="section-title" data-i="lang_title">Speaks your<br/><em>customers' language</em></h2>
+  <div class="divider"></div>
+  <div class="lang-row">
+    <div class="lang-pill">🇬🇧 English</div><div class="lang-pill">🇫🇷 Français</div>
+    <div class="lang-pill">🇪🇸 Español</div><div class="lang-pill">🇩🇪 Deutsch</div>
+    <div class="lang-pill">🇳🇱 Nederlands</div><div class="lang-pill">🇵🇹 Português</div>
+    <div class="lang-pill">🇮🇹 Italiano</div><div class="lang-pill">🇯🇵 日本語</div>
+    <div class="lang-pill">🇨🇳 中文</div><div class="lang-pill">🇦🇪 العربية</div>
+    <div class="lang-pill">🇧🇷 Português BR</div><div class="lang-pill">+ more</div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="section-tag" data-i="price_tag">Pricing</div>
+  <h2 class="section-title" data-i="price_title">Simple,<br/><em>transparent pricing</em></h2>
+  <div class="pricing-grid">
+
+    <!-- STARTER -->
+    <div class="plan-card">
+      <div class="plan-name" data-i="p1name">Starter</div>
+      <div class="plan-activation" data-i="p1act">One-time setup fee: <span>$149</span></div>
+      <div class="plan-price">$49</div>
+      <div class="plan-period" data-i="p1period">/month · cancel anytime</div>
+      <ul class="plan-features">
+        <li data-i="p1f1">1 Shopify store</li>
+        <li data-i="p1f2">500 conversations/month</li>
+        <li data-i="p1f3">3 languages</li>
+        <li data-i="p1f4">Order tracking & FAQ</li>
+        <li class="no" data-i="p1f5">Custom branding</li>
+        <li class="no" data-i="p1f6">Human escalation</li>
+        <li class="no" data-i="p1f7">Priority support</li>
+      </ul>
+      <button class="plan-cta" data-i="p1cta">Get Started</button>
+    </div>
+
+    <!-- GROWTH (POPULAR) -->
+    <div class="plan-card popular">
+      <div class="plan-badge" data-i="popular_badge">MOST POPULAR</div>
+      <div class="plan-name" data-i="p2name">Growth</div>
+      <div class="plan-activation" data-i="p2act">One-time setup fee: <span>$249</span></div>
+      <div class="plan-price">$99</div>
+      <div class="plan-period" data-i="p2period">/month · cancel anytime</div>
+      <ul class="plan-features">
+        <li data-i="p2f1">1 Shopify store</li>
+        <li data-i="p2f2">Unlimited conversations</li>
+        <li data-i="p2f3">10+ languages auto-detected</li>
+        <li data-i="p2f4">Order tracking, returns & recommendations</li>
+        <li data-i="p2f5">Custom branding & colors</li>
+        <li data-i="p2f6">Human escalation system</li>
+        <li class="no" data-i="p2f7">Dedicated support</li>
+      </ul>
+      <button class="plan-cta" data-i="p2cta">Start Free Trial</button>
+    </div>
+
+    <!-- PRO -->
+    <div class="plan-card">
+      <div class="plan-name" data-i="p3name">Pro</div>
+      <div class="plan-activation" data-i="p3act">One-time setup fee: <span>$449</span></div>
+      <div class="plan-price">$179</div>
+      <div class="plan-period" data-i="p3period">/month · cancel anytime</div>
+      <ul class="plan-features">
+        <li data-i="p3f1">Up to 3 Shopify stores</li>
+        <li data-i="p3f2">Unlimited conversations</li>
+        <li data-i="p3f3">15+ languages auto-detected</li>
+        <li data-i="p3f4">Full automation suite</li>
+        <li data-i="p3f5">Custom branding & colors</li>
+        <li data-i="p3f6">Human escalation system</li>
+        <li data-i="p3f7">Dedicated 24/7 support</li>
+      </ul>
+      <button class="plan-cta" data-i="p3cta">Get Started</button>
+    </div>
+
+  </div>
+</section>
+
+<section id="cta-final">
+  <h2 class="cta-title" data-i="cta_title">Ready to let<br/><em>AI handle it?</em></h2>
+  <button class="btn-primary" style="font-size:15px;padding:20px 56px" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})" data-i="cta_btn">See Plans & Get Started</button>
+</section>
+
+<footer>
+  <div class="footer-logo">Shopmate<span style="color:var(--white)">.ia</span></div>
+  <div class="footer-copy" data-i="footer_copy">© 2025 Shopmate.ia · All rights reserved</div>
+</footer>
+
+<script>
+const T = {
+  en:{
+    nav_cta:"Start Free Trial",hero_tag:"AI Support Agent for Shopify",
+    hero_sub:"Shopmate.ia answers your customers 24/7 — orders, returns, recommendations — so you can focus on growing your business.",
+    hero_cta1:"See Plans & Pricing",hero_cta2:"See it in action",
+    stat1:"Always on",stat2:"Response time",stat3:"Languages",stat4:"Setup time",
+    demo_tag:"Live Preview",demo_title:"See <em>Shopmate.ia</em><br/>in action",demo_status:"Active 24/7",
+    demo_msg1:"Hi! 👋 How can I help you today?",demo_msg2:"Where is my order #1042?",
+    demo_msg3:"Order #1042 is in transit 🚚 Expected delivery tomorrow before 6pm. Carrier: DHL. — Shopmate.ia",
+    feat_tag:"What's included",feat_title:"Everything your<br/><em>customers need</em>",
+    f1t:"Order Tracking",f1d:"Real-time status, tracking numbers, estimated delivery — no human needed.",
+    f2t:"Returns & Refunds",f2d:"Guides customers step by step. No more support tickets.",
+    f3t:"Product Recommendations",f3d:"Understands needs, recommends the right products, increases cart value.",
+    f4t:"Auto Language Detection",f4d:"Detects and replies in the customer's language. 15+ languages.",
+    f5t:"Human Escalation",f5d:"Detects complex cases and transfers to a human agent seamlessly.",
+    f6t:"5-Minute Setup",f6d:"One snippet in theme.liquid. No plugins or technical skills needed.",
+    test_tag:"Reviews",test_title:"What store owners <em>actually say</em>",
+    t1q:'"Honestly didn\'t expect much at first. But after 2 weeks, my support emails went from 30/day to maybe 5. Customers get their answers instantly, even at midnight."',t1s:"Lingerie & Loungewear · Lyon",
+    t2q:'"I was doing customer support myself every evening after work. Now I just check in once a day. Shopmate handles the repetitive stuff."',t2s:"Sneakers & Streetwear · Brussels",
+    t3q:'"Setup was genuinely fast, like 10 minutes max. The bot sometimes misses very specific product questions but for 90% of requests it\'s spot on."',t3s:"Skincare & Cosmetics · Paris",
+    t4q:'"My store sells internationally so the multilingual part was the main selling point. Customers write in Dutch, Spanish, English — it just handles it."',t4s:"Home & Lifestyle · Amsterdam",
+    t5q:'"Black Friday was the real test. 3x traffic and zero extra support load. The bot handled everything. I actually enjoyed the weekend."',t5s:"Electronics Accessories · Geneva",
+    t6q:'"Took me a week to fully trust it but now I barely think about support anymore. Would love more analytics but overall really happy."',t6s:"Kids Fashion · Bordeaux",
+    lang_tag:"Multilingual",lang_title:"Speaks your<br/><em>customers' language</em>",
+    price_tag:"Pricing",price_title:"Simple,<br/><em>transparent pricing</em>",popular_badge:"MOST POPULAR",
+    p1name:"Starter",p1act:'One-time setup fee: <span>$149</span>',p1period:"/month · cancel anytime",
+    p1f1:"1 Shopify store",p1f2:"500 conversations/month",p1f3:"3 languages",p1f4:"Order tracking & FAQ",p1f5:"Custom branding",p1f6:"Human escalation",p1f7:"Priority support",p1cta:"Get Started",
+    p2name:"Growth",p2act:'One-time setup fee: <span>$249</span>',p2period:"/month · cancel anytime",
+    p2f1:"1 Shopify store",p2f2:"Unlimited conversations",p2f3:"10+ languages auto-detected",p2f4:"Order tracking, returns & recommendations",p2f5:"Custom branding & colors",p2f6:"Human escalation system",p2f7:"Dedicated support",p2cta:"Start Free Trial",
+    p3name:"Pro",p3act:'One-time setup fee: <span>$449</span>',p3period:"/month · cancel anytime",
+    p3f1:"Up to 3 Shopify stores",p3f2:"Unlimited conversations",p3f3:"15+ languages auto-detected",p3f4:"Full automation suite",p3f5:"Custom branding & colors",p3f6:"Human escalation system",p3f7:"Dedicated 24/7 support",p3cta:"Get Started",
+    cta_title:"Ready to let<br/><em>AI handle it?</em>",cta_btn:"See Plans & Get Started",
+    footer_copy:"© 2025 Shopmate.ia · All rights reserved"
+  },
+  fr:{
+    nav_cta:"Essai Gratuit",hero_tag:"Agent IA Support pour Shopify",
+    hero_sub:"Shopmate.ia répond à vos clients 24h/24 — commandes, retours, recommandations — pour que vous vous concentriez sur votre croissance.",
+    hero_cta1:"Voir les offres",hero_cta2:"Voir en action",
+    stat1:"Toujours actif",stat2:"Temps de réponse",stat3:"Langues",stat4:"Installation",
+    demo_tag:"Aperçu en direct",demo_title:"<em>Shopmate.ia</em><br/>en action",demo_status:"Actif 24/7",
+    demo_msg1:"Bonjour ! 👋 Comment puis-je vous aider ?",demo_msg2:"Où est ma commande #1042 ?",
+    demo_msg3:"Commande #1042 en transit 🚚 Livraison prévue demain avant 18h. Transporteur : DHL. — Shopmate.ia",
+    feat_tag:"Ce qui est inclus",feat_title:"Tout ce dont vos<br/><em>clients ont besoin</em>",
+    f1t:"Suivi de commande",f1d:"Statut en temps réel, numéros de suivi, délai estimé — sans intervention.",
+    f2t:"Retours & Remboursements",f2d:"Guide les clients étape par étape. Plus de tickets support.",
+    f3t:"Recommandations produits",f3d:"Comprend les besoins et recommande les bons produits.",
+    f4t:"Détection automatique de langue",f4d:"Détecte et répond dans la langue du client. 15+ langues.",
+    f5t:"Escalade vers un humain",f5d:"Détecte les situations complexes et transfère avec tout le contexte.",
+    f6t:"Installation en 5 minutes",f6d:"Un seul copier-coller dans theme.liquid. Aucune compétence technique.",
+    test_tag:"Avis clients",test_title:"Ce que disent <em>vraiment</em> les boutiques",
+    t1q:'"Franchement je n\'attendais pas grand-chose au début. Mais au bout de 2 semaines, mes emails support sont passés de 30/jour à 5. Les clients ont leurs réponses instantanément, même à minuit."',t1s:"Lingerie & Loungewear · Lyon",
+    t2q:'"Je faisais moi-même le support chaque soir après le boulot. Maintenant je jette juste un œil une fois par jour. Shopmate gère tout ce qui est répétitif."',t2s:"Sneakers & Streetwear · Bruxelles",
+    t3q:'"L\'installation est vraiment rapide, 10 minutes max. Le bot rate parfois des questions très spécifiques sur les produits mais pour 90% des demandes c\'est nickel."',t3s:"Skincare & Cosmétiques · Paris",
+    t4q:'"Ma boutique vend à l\'international donc le multilingue était le point clé. Les clients écrivent en néerlandais, espagnol, anglais — il gère tout sans souci."',t4s:"Maison & Lifestyle · Amsterdam",
+    t5q:'"Le Black Friday a été le vrai test. 3x le trafic normal et zéro charge support en plus. Le bot a tout géré. J\'ai pu profiter du week-end pour de vrai."',t5s:"Accessoires Électroniques · Genève",
+    t6q:'"Il m\'a fallu une semaine pour vraiment lui faire confiance mais maintenant je pense plus au support. J\'aimerais plus d\'analytics mais globalement très content."',t6s:"Mode Enfant · Bordeaux",
+    lang_tag:"Multilingue",lang_title:"Parle la langue<br/><em>de vos clients</em>",
+    price_tag:"Tarifs",price_title:"Tarifs simples,<br/><em>transparents</em>",popular_badge:"LE PLUS POPULAIRE",
+    p1name:"Starter",p1act:'Frais d\'activation : <span>149$</span>',p1period:"/mois · résiliable à tout moment",
+    p1f1:"1 boutique Shopify",p1f2:"500 conversations/mois",p1f3:"3 langues",p1f4:"Suivi commandes & FAQ",p1f5:"Branding personnalisé",p1f6:"Escalade humain",p1f7:"Support prioritaire",p1cta:"Commencer",
+    p2name:"Growth",p2act:'Frais d\'activation : <span>249$</span>',p2period:"/mois · résiliable à tout moment",
+    p2f1:"1 boutique Shopify",p2f2:"Conversations illimitées",p2f3:"10+ langues détectées auto",p2f4:"Commandes, retours & recommandations",p2f5:"Branding & couleurs personnalisés",p2f6:"Système d'escalade humain",p2f7:"Support dédié",p2cta:"Essai Gratuit 14 Jours",
+    p3name:"Pro",p3act:'Frais d\'activation : <span>449$</span>',p3period:"/mois · résiliable à tout moment",
+    p3f1:"Jusqu'à 3 boutiques Shopify",p3f2:"Conversations illimitées",p3f3:"15+ langues détectées auto",p3f4:"Suite complète d'automatisation",p3f5:"Branding & couleurs personnalisés",p3f6:"Système d'escalade humain",p3f7:"Support dédié 24/7",p3cta:"Commencer",
+    cta_title:"Prêt à laisser<br/><em>l'IA gérer ?</em>",cta_btn:"Voir les offres",
+    footer_copy:"© 2025 Shopmate.ia · Tous droits réservés"
+  }
+};
+
+// Add other languages (simplified)
+['es','de','nl','pt'].forEach(l => { T[l] = {...T.en}; });
+T.es.nav_cta="Prueba Gratis"; T.es.hero_tag="Agente IA para Shopify"; T.es.popular_badge="MÁS POPULAR"; T.es.p2cta="Prueba Gratis 14 Días";
+T.de.nav_cta="Kostenlos testen"; T.de.hero_tag="KI-Support für Shopify"; T.de.popular_badge="BELIEBTESTER PLAN"; T.de.p2cta="14 Tage kostenlos";
+T.nl.nav_cta="Gratis proberen"; T.nl.hero_tag="AI-support voor Shopify"; T.nl.popular_badge="MEEST POPULAIR"; T.nl.p2cta:"14 dagen gratis";
+T.pt.nav_cta="Teste Grátis"; T.pt.hero_tag="Agente IA para Shopify"; T.pt.popular_badge="MAIS POPULAR"; T.pt.p2cta="Teste Grátis 14 Dias";
+
+function setLang(lang) {
+  const t = T[lang]; if (!t) return;
+  document.querySelectorAll('[data-i]').forEach(el => {
+    const k = el.getAttribute('data-i');
+    if (t[k] !== undefined) el.innerHTML = t[k];
+  });
+  document.querySelectorAll('.ls-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.querySelector(`.ls-btn[onclick="setLang('${lang}')"]`);
+  if (btn) btn.classList.add('active');
+  document.documentElement.lang = lang;
+}
+
+const bl = (navigator.language||'en').slice(0,2);
+if (T[bl]) setLang(bl); else setLang('en');
+</script>
+</body>
+</html>
