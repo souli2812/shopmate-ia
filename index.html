@@ -114,9 +114,15 @@ footer{padding:40px;border-top:0.5px solid #1a1a1a;display:flex;align-items:cent
 .footer-logo{font-size:18px;font-weight:300;color:var(--gold);letter-spacing:2px}
 .footer-copy{font-family:var(--font-mono);font-size:11px;color:var(--muted)}
 
-#lang-switcher{position:fixed;bottom:28px;left:28px;z-index:999;display:flex;gap:6px;flex-wrap:wrap;max-width:180px}
-.ls-btn{background:rgba(14,14,14,0.9);border:0.5px solid #333;color:var(--muted);font-family:var(--font-mono);font-size:10px;padding:5px 10px;cursor:pointer;border-radius:4px;transition:all 0.15s}
-.ls-btn.active,.ls-btn:hover{border-color:var(--gold);color:var(--gold)}
+#lang-dropdown{position:relative}
+#lang-btn{background:transparent;border:0.5px solid #2a2a2a;color:var(--muted);font-family:var(--font-mono);font-size:11px;padding:7px 12px;cursor:pointer;border-radius:4px;display:flex;align-items:center;gap:6px;transition:all 0.15s;letter-spacing:0.5px}
+#lang-btn:hover{border-color:var(--gold);color:var(--gold)}
+#lang-btn svg{color:var(--muted);transition:transform 0.2s}
+#lang-dropdown.open #lang-btn svg{transform:rotate(180deg)}
+#lang-menu{position:absolute;top:calc(100% + 8px);right:0;background:#111;border:0.5px solid #2a2a2a;border-radius:6px;overflow:hidden;display:none;min-width:140px;box-shadow:0 12px 32px rgba(0,0,0,0.5);z-index:200}
+#lang-dropdown.open #lang-menu{display:block}
+.lang-opt{padding:9px 14px;font-family:var(--font-mono);font-size:12px;color:var(--muted);cursor:pointer;transition:background 0.1s}
+.lang-opt:hover{background:#1a1a1a;color:var(--gold)}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:600px){nav{padding:16px 20px}#hero{padding:100px 24px 60px}.hero-stat-row{gap:28px}footer{flex-direction:column;text-align:center}#lang-switcher{bottom:20px;left:16px}.pricing-grid{grid-template-columns:1fr}}
@@ -124,17 +130,25 @@ footer{padding:40px;border-top:0.5px solid #1a1a1a;display:flex;align-items:cent
 </head>
 <body>
 
-<div id="lang-switcher">
-  <button class="ls-btn active" onclick="setLang('en')">EN</button>
-  <button class="ls-btn" onclick="setLang('fr')">FR</button>
-  <button class="ls-btn" onclick="setLang('es')">ES</button>
-  <button class="ls-btn" onclick="setLang('de')">DE</button>
-  <button class="ls-btn" onclick="setLang('nl')">NL</button>
-  <button class="ls-btn" onclick="setLang('pt')">PT</button>
-</div>
+
 
 <nav>
   <div class="nav-logo">Shopmate<span>.ia</span></div>
+  <div id="lang-dropdown">
+    <button id="lang-btn" onclick="toggleLangMenu()">
+      <span id="lang-flag">🇬🇧</span>
+      <span id="lang-code">EN</span>
+      <svg viewBox="0 0 10 6" width="10"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>
+    </button>
+    <div id="lang-menu">
+      <div class="lang-opt" onclick="setLang('en')">🇬🇧 English</div>
+      <div class="lang-opt" onclick="setLang('fr')">🇫🇷 Français</div>
+      <div class="lang-opt" onclick="setLang('es')">🇪🇸 Español</div>
+      <div class="lang-opt" onclick="setLang('de')">🇩🇪 Deutsch</div>
+      <div class="lang-opt" onclick="setLang('nl')">🇳🇱 Nederlands</div>
+      <div class="lang-opt" onclick="setLang('pt')">🇵🇹 Português</div>
+    </div>
+  </div>
   <button class="nav-cta" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})" data-i="nav_cta">Start Free Trial</button>
 </nav>
 
@@ -339,96 +353,246 @@ footer{padding:40px;border-top:0.5px solid #1a1a1a;display:flex;align-items:cent
 </footer>
 
 <script>
-const T = {
+var T = {
   en:{
-    nav_cta:"Start Free Trial",hero_tag:"AI Support Agent for Shopify",
-    hero_sub:"Shopmate.ia answers your customers 24/7 — orders, returns, recommendations — so you can focus on growing your business.",
+    nav_cta:"Start Free Trial",
+    hero_tag:"AI Support Agent for Shopify",
+    hero_sub:"Shopmate.ia answers your customers 24/7 - orders, returns, recommendations - so you can focus on growing your business.",
     hero_cta1:"See Plans & Pricing",hero_cta2:"See it in action",
     stat1:"Always on",stat2:"Response time",stat3:"Languages",stat4:"Setup time",
     demo_tag:"Live Preview",demo_title:"See <em>Shopmate.ia</em><br/>in action",demo_status:"Active 24/7",
-    demo_msg1:"Hi! 👋 How can I help you today?",demo_msg2:"Where is my order #1042?",
-    demo_msg3:"Order #1042 is in transit 🚚 Expected delivery tomorrow before 6pm. Carrier: DHL. — Shopmate.ia",
+    demo_msg1:"Hi! How can I help you today?",demo_msg2:"Where is my order #1042?",
+    demo_msg3:"Order #1042 is in transit. Expected delivery tomorrow before 6pm. Carrier: DHL. - Shopmate.ia",
     feat_tag:"What's included",feat_title:"Everything your<br/><em>customers need</em>",
-    f1t:"Order Tracking",f1d:"Real-time status, tracking numbers, estimated delivery — no human needed.",
+    f1t:"Order Tracking",f1d:"Real-time status, tracking numbers, estimated delivery - no human needed.",
     f2t:"Returns & Refunds",f2d:"Guides customers step by step. No more support tickets.",
     f3t:"Product Recommendations",f3d:"Understands needs, recommends the right products, increases cart value.",
-    f4t:"Auto Language Detection",f4d:"Detects and replies in the customer's language. 15+ languages.",
+    f4t:"Auto Language Detection",f4d:"Detects and replies in the customer language. 15+ languages.",
     f5t:"Human Escalation",f5d:"Detects complex cases and transfers to a human agent seamlessly.",
     f6t:"5-Minute Setup",f6d:"One snippet in theme.liquid. No plugins or technical skills needed.",
     test_tag:"Reviews",test_title:"What store owners <em>actually say</em>",
-    t1q:'"Honestly didn\'t expect much at first. But after 2 weeks, my support emails went from 30/day to maybe 5. Customers get their answers instantly, even at midnight."',t1s:"Lingerie & Loungewear · Lyon",
-    t2q:'"I was doing customer support myself every evening after work. Now I just check in once a day. Shopmate handles the repetitive stuff."',t2s:"Sneakers & Streetwear · Brussels",
-    t3q:'"Setup was genuinely fast, like 10 minutes max. The bot sometimes misses very specific product questions but for 90% of requests it\'s spot on."',t3s:"Skincare & Cosmetics · Paris",
-    t4q:'"My store sells internationally so the multilingual part was the main selling point. Customers write in Dutch, Spanish, English — it just handles it."',t4s:"Home & Lifestyle · Amsterdam",
-    t5q:'"Black Friday was the real test. 3x traffic and zero extra support load. The bot handled everything. I actually enjoyed the weekend."',t5s:"Electronics Accessories · Geneva",
-    t6q:'"Took me a week to fully trust it but now I barely think about support anymore. Would love more analytics but overall really happy."',t6s:"Kids Fashion · Bordeaux",
-    lang_tag:"Multilingual",lang_title:"Speaks your<br/><em>customers' language</em>",
+    t1q:"Honestly did not expect much at first. But after 2 weeks, my support emails went from 30/day to maybe 5. Customers get answers instantly, even at midnight.",t1s:"Lingerie & Loungewear - Lyon",
+    t2q:"I was doing customer support myself every evening after work. Now I just check in once a day. Shopmate handles the repetitive stuff.",t2s:"Sneakers & Streetwear - Brussels",
+    t3q:"Setup was fast, like 10 minutes max. The bot sometimes misses very specific product questions but for 90% of requests it is spot on. Good value.",t3s:"Skincare & Cosmetics - Paris",
+    t4q:"My store sells internationally so the multilingual part was the main selling point. Customers write in Dutch, Spanish, English - it just handles it.",t4s:"Home & Lifestyle - Amsterdam",
+    t5q:"Black Friday was the real test. 3x traffic and zero extra support load. The bot handled everything. I actually enjoyed the weekend.",t5s:"Electronics Accessories - Geneva",
+    t6q:"Took me a week to fully trust it but now I barely think about support anymore. Would love more analytics but overall really happy.",t6s:"Kids Fashion - Bordeaux",
+    lang_tag:"Multilingual",lang_title:"Speaks your<br/><em>customers language</em>",
     price_tag:"Pricing",price_title:"Simple,<br/><em>transparent pricing</em>",popular_badge:"MOST POPULAR",
-    p1name:"Starter",p1act:'One-time setup fee: <span>$149</span>',p1period:"/month · cancel anytime",
+    p1name:"Starter",p1act:"One-time setup fee: <span>$149</span>",p1period:"/month - cancel anytime",
     p1f1:"1 Shopify store",p1f2:"500 conversations/month",p1f3:"3 languages",p1f4:"Order tracking & FAQ",p1f5:"Custom branding",p1f6:"Human escalation",p1f7:"Priority support",p1cta:"Get Started",
-    p2name:"Growth",p2act:'One-time setup fee: <span>$249</span>',p2period:"/month · cancel anytime",
-    p2f1:"1 Shopify store",p2f2:"Unlimited conversations",p2f3:"10+ languages auto-detected",p2f4:"Order tracking, returns & recommendations",p2f5:"Custom branding & colors",p2f6:"Human escalation system",p2f7:"Dedicated support",p2cta:"Start Free Trial",
-    p3name:"Pro",p3act:'One-time setup fee: <span>$449</span>',p3period:"/month · cancel anytime",
+    p2name:"Growth",p2act:"One-time setup fee: <span>$249</span>",p2period:"/month - cancel anytime",
+    p2f1:"1 Shopify store",p2f2:"Unlimited conversations",p2f3:"10+ languages auto-detected",p2f4:"Orders, returns & recommendations",p2f5:"Custom branding & colors",p2f6:"Human escalation system",p2f7:"Dedicated support",p2cta:"Start Free Trial",
+    p3name:"Pro",p3act:"One-time setup fee: <span>$449</span>",p3period:"/month - cancel anytime",
     p3f1:"Up to 3 Shopify stores",p3f2:"Unlimited conversations",p3f3:"15+ languages auto-detected",p3f4:"Full automation suite",p3f5:"Custom branding & colors",p3f6:"Human escalation system",p3f7:"Dedicated 24/7 support",p3cta:"Get Started",
     cta_title:"Ready to let<br/><em>AI handle it?</em>",cta_btn:"See Plans & Get Started",
-    footer_copy:"© 2025 Shopmate.ia · All rights reserved"
+    footer_copy:"2025 Shopmate.ia - All rights reserved"
   },
   fr:{
-    nav_cta:"Essai Gratuit",hero_tag:"Agent IA Support pour Shopify",
-    hero_sub:"Shopmate.ia répond à vos clients 24h/24 — commandes, retours, recommandations — pour que vous vous concentriez sur votre croissance.",
+    nav_cta:"Essai Gratuit",
+    hero_tag:"Agent IA Support pour Shopify",
+    hero_sub:"Shopmate.ia repond a vos clients 24h/24 - commandes, retours, recommandations - pour que vous vous concentriez sur votre croissance.",
     hero_cta1:"Voir les offres",hero_cta2:"Voir en action",
-    stat1:"Toujours actif",stat2:"Temps de réponse",stat3:"Langues",stat4:"Installation",
-    demo_tag:"Aperçu en direct",demo_title:"<em>Shopmate.ia</em><br/>en action",demo_status:"Actif 24/7",
-    demo_msg1:"Bonjour ! 👋 Comment puis-je vous aider ?",demo_msg2:"Où est ma commande #1042 ?",
-    demo_msg3:"Commande #1042 en transit 🚚 Livraison prévue demain avant 18h. Transporteur : DHL. — Shopmate.ia",
+    stat1:"Toujours actif",stat2:"Temps de reponse",stat3:"Langues",stat4:"Installation",
+    demo_tag:"Apercu en direct",demo_title:"<em>Shopmate.ia</em><br/>en action",demo_status:"Actif 24/7",
+    demo_msg1:"Bonjour ! Comment puis-je vous aider ?",demo_msg2:"Ou est ma commande #1042 ?",
+    demo_msg3:"Commande #1042 en transit. Livraison prevue demain avant 18h. Transporteur : DHL. - Shopmate.ia",
     feat_tag:"Ce qui est inclus",feat_title:"Tout ce dont vos<br/><em>clients ont besoin</em>",
-    f1t:"Suivi de commande",f1d:"Statut en temps réel, numéros de suivi, délai estimé — sans intervention.",
-    f2t:"Retours & Remboursements",f2d:"Guide les clients étape par étape. Plus de tickets support.",
+    f1t:"Suivi de commande",f1d:"Statut en temps reel, numeros de suivi, delai estime - sans intervention.",
+    f2t:"Retours & Remboursements",f2d:"Guide les clients etape par etape. Plus de tickets support.",
     f3t:"Recommandations produits",f3d:"Comprend les besoins et recommande les bons produits.",
-    f4t:"Détection automatique de langue",f4d:"Détecte et répond dans la langue du client. 15+ langues.",
-    f5t:"Escalade vers un humain",f5d:"Détecte les situations complexes et transfère avec tout le contexte.",
-    f6t:"Installation en 5 minutes",f6d:"Un seul copier-coller dans theme.liquid. Aucune compétence technique.",
+    f4t:"Detection automatique de langue",f4d:"Detecte et repond dans la langue du client. 15+ langues.",
+    f5t:"Escalade vers un humain",f5d:"Detecte les situations complexes et transfere avec tout le contexte.",
+    f6t:"Installation en 5 minutes",f6d:"Un seul copier-coller dans theme.liquid. Aucune competence technique.",
     test_tag:"Avis clients",test_title:"Ce que disent <em>vraiment</em> les boutiques",
-    t1q:'"Franchement je n\'attendais pas grand-chose au début. Mais au bout de 2 semaines, mes emails support sont passés de 30/jour à 5. Les clients ont leurs réponses instantanément, même à minuit."',t1s:"Lingerie & Loungewear · Lyon",
-    t2q:'"Je faisais moi-même le support chaque soir après le boulot. Maintenant je jette juste un œil une fois par jour. Shopmate gère tout ce qui est répétitif."',t2s:"Sneakers & Streetwear · Bruxelles",
-    t3q:'"L\'installation est vraiment rapide, 10 minutes max. Le bot rate parfois des questions très spécifiques sur les produits mais pour 90% des demandes c\'est nickel."',t3s:"Skincare & Cosmétiques · Paris",
-    t4q:'"Ma boutique vend à l\'international donc le multilingue était le point clé. Les clients écrivent en néerlandais, espagnol, anglais — il gère tout sans souci."',t4s:"Maison & Lifestyle · Amsterdam",
-    t5q:'"Le Black Friday a été le vrai test. 3x le trafic normal et zéro charge support en plus. Le bot a tout géré. J\'ai pu profiter du week-end pour de vrai."',t5s:"Accessoires Électroniques · Genève",
-    t6q:'"Il m\'a fallu une semaine pour vraiment lui faire confiance mais maintenant je pense plus au support. J\'aimerais plus d\'analytics mais globalement très content."',t6s:"Mode Enfant · Bordeaux",
+    t1q:"Franchement je n attendais pas grand-chose au debut. Mais au bout de 2 semaines, mes emails support sont passes de 30/jour a 5. Les clients ont leurs reponses instantanement, meme a minuit.",t1s:"Lingerie & Loungewear - Lyon",
+    t2q:"Je faisais moi-meme le support chaque soir apres le boulot. Maintenant je jette juste un oeil une fois par jour. Shopmate gere tout ce qui est repetitif.",t2s:"Sneakers & Streetwear - Bruxelles",
+    t3q:"L installation est vraiment rapide, 10 minutes max. Le bot rate parfois des questions tres specifiques sur les produits mais pour 90% des demandes c est nickel.",t3s:"Skincare & Cosmetiques - Paris",
+    t4q:"Ma boutique vend a l international donc le multilingue etait le point cle. Les clients ecrivent en neerlandais, espagnol, anglais - il gere tout sans souci.",t4s:"Maison & Lifestyle - Amsterdam",
+    t5q:"Le Black Friday a ete le vrai test. 3x le trafic normal et zero charge support en plus. Le bot a tout gere. J ai pu profiter du week-end pour de vrai.",t5s:"Accessoires Electroniques - Geneve",
+    t6q:"Il m a fallu une semaine pour vraiment lui faire confiance mais maintenant je pense plus au support. J aimerais plus d analytics mais globalement tres content.",t6s:"Mode Enfant - Bordeaux",
     lang_tag:"Multilingue",lang_title:"Parle la langue<br/><em>de vos clients</em>",
     price_tag:"Tarifs",price_title:"Tarifs simples,<br/><em>transparents</em>",popular_badge:"LE PLUS POPULAIRE",
-    p1name:"Starter",p1act:'Frais d\'activation : <span>149$</span>',p1period:"/mois · résiliable à tout moment",
-    p1f1:"1 boutique Shopify",p1f2:"500 conversations/mois",p1f3:"3 langues",p1f4:"Suivi commandes & FAQ",p1f5:"Branding personnalisé",p1f6:"Escalade humain",p1f7:"Support prioritaire",p1cta:"Commencer",
-    p2name:"Growth",p2act:'Frais d\'activation : <span>249$</span>',p2period:"/mois · résiliable à tout moment",
-    p2f1:"1 boutique Shopify",p2f2:"Conversations illimitées",p2f3:"10+ langues détectées auto",p2f4:"Commandes, retours & recommandations",p2f5:"Branding & couleurs personnalisés",p2f6:"Système d'escalade humain",p2f7:"Support dédié",p2cta:"Essai Gratuit 14 Jours",
-    p3name:"Pro",p3act:'Frais d\'activation : <span>449$</span>',p3period:"/mois · résiliable à tout moment",
-    p3f1:"Jusqu'à 3 boutiques Shopify",p3f2:"Conversations illimitées",p3f3:"15+ langues détectées auto",p3f4:"Suite complète d'automatisation",p3f5:"Branding & couleurs personnalisés",p3f6:"Système d'escalade humain",p3f7:"Support dédié 24/7",p3cta:"Commencer",
-    cta_title:"Prêt à laisser<br/><em>l'IA gérer ?</em>",cta_btn:"Voir les offres",
-    footer_copy:"© 2025 Shopmate.ia · Tous droits réservés"
+    p1name:"Starter",p1act:"Frais d activation : <span>149$</span>",p1period:"/mois - resiliable a tout moment",
+    p1f1:"1 boutique Shopify",p1f2:"500 conversations/mois",p1f3:"3 langues",p1f4:"Suivi commandes & FAQ",p1f5:"Branding personnalise",p1f6:"Escalade humain",p1f7:"Support prioritaire",p1cta:"Commencer",
+    p2name:"Growth",p2act:"Frais d activation : <span>249$</span>",p2period:"/mois - resiliable a tout moment",
+    p2f1:"1 boutique Shopify",p2f2:"Conversations illimitees",p2f3:"10+ langues detectees auto",p2f4:"Commandes, retours & recommandations",p2f5:"Branding & couleurs personnalises",p2f6:"Systeme d escalade humain",p2f7:"Support dedie",p2cta:"Essai Gratuit 14 Jours",
+    p3name:"Pro",p3act:"Frais d activation : <span>449$</span>",p3period:"/mois - resiliable a tout moment",
+    p3f1:"Jusqu a 3 boutiques Shopify",p3f2:"Conversations illimitees",p3f3:"15+ langues detectees auto",p3f4:"Suite complete d automatisation",p3f5:"Branding & couleurs personnalises",p3f6:"Systeme d escalade humain",p3f7:"Support dedie 24/7",p3cta:"Commencer",
+    cta_title:"Pret a laisser<br/><em>l IA gerer ?</em>",cta_btn:"Voir les offres",
+    footer_copy:"2025 Shopmate.ia - Tous droits reserves"
+  },
+  es:{
+    nav_cta:"Prueba Gratis",
+    hero_tag:"Agente IA de Soporte para Shopify",
+    hero_sub:"Shopmate.ia responde a tus clientes 24/7 - pedidos, devoluciones, recomendaciones - para que te concentres en crecer.",
+    hero_cta1:"Ver precios",hero_cta2:"Ver en accion",
+    stat1:"Siempre activo",stat2:"Tiempo de respuesta",stat3:"Idiomas",stat4:"Instalacion",
+    demo_tag:"Vista previa",demo_title:"<em>Shopmate.ia</em><br/>en accion",demo_status:"Activo 24/7",
+    demo_msg1:"Hola! Como puedo ayudarte?",demo_msg2:"Donde esta mi pedido #1042?",
+    demo_msg3:"Pedido #1042 en transito. Entrega manana antes de las 18h. Transportista: DHL. - Shopmate.ia",
+    feat_tag:"Que incluye",feat_title:"Todo lo que tus<br/><em>clientes necesitan</em>",
+    f1t:"Seguimiento de pedidos",f1d:"Estado en tiempo real, numeros de seguimiento, entrega estimada.",
+    f2t:"Devoluciones y reembolsos",f2d:"Guia a los clientes paso a paso. Sin mas tickets de soporte.",
+    f3t:"Recomendaciones de productos",f3d:"Entiende las necesidades y recomienda los productos correctos.",
+    f4t:"Deteccion automatica de idioma",f4d:"Detecta y responde en el idioma del cliente. Mas de 15 idiomas.",
+    f5t:"Escalada a humano",f5d:"Detecta situaciones complejas y transfiere a un agente humano.",
+    f6t:"Instalacion en 5 minutos",f6d:"Un snippet en theme.liquid. Sin plugins ni conocimientos tecnicos.",
+    test_tag:"Opiniones",test_title:"Lo que dicen <em>de verdad</em> las tiendas",
+    t1q:"Sinceramente no esperaba mucho al principio. Pero despues de 2 semanas, mis emails de soporte bajaron de 30/dia a 5. Los clientes obtienen respuestas al instante, incluso a medianoche.",t1s:"Lenceria & Loungewear - Lyon",
+    t2q:"Yo mismo hacia el soporte cada noche despues del trabajo. Ahora solo reviso una vez al dia. Shopmate gestiona todo lo repetitivo.",t2s:"Sneakers & Streetwear - Bruselas",
+    t3q:"La instalacion fue muy rapida, 10 minutos maximo. A veces el bot falla en preguntas muy especificas pero para el 90% de las solicitudes es perfecto.",t3s:"Skincare & Cosmeticos - Paris",
+    t4q:"Mi tienda vende internacionalmente asi que el multilingue era el punto clave. Los clientes escriben en holandes, espanol, ingles - lo gestiona todo.",t4s:"Hogar & Lifestyle - Amsterdam",
+    t5q:"El Black Friday fue la prueba real. 3x el trafico normal y cero carga extra de soporte. El bot lo gestiono todo. Pude disfrutar el fin de semana.",t5s:"Accesorios Electronicos - Ginebra",
+    t6q:"Me tarde una semana en confiar plenamente pero ahora casi no pienso en el soporte. Me gustaria mas analiticas pero en general muy contento.",t6s:"Moda Infantil - Burdeos",
+    lang_tag:"Multilingue",lang_title:"Habla el idioma<br/><em>de tus clientes</em>",
+    price_tag:"Precios",price_title:"Precios simples,<br/><em>transparentes</em>",popular_badge:"MAS POPULAR",
+    p1name:"Starter",p1act:"Tarifa de activacion: <span>$149</span>",p1period:"/mes - cancela cuando quieras",
+    p1f1:"1 tienda Shopify",p1f2:"500 conversaciones/mes",p1f3:"3 idiomas",p1f4:"Seguimiento de pedidos y FAQ",p1f5:"Marca personalizada",p1f6:"Escalada humana",p1f7:"Soporte prioritario",p1cta:"Empezar",
+    p2name:"Growth",p2act:"Tarifa de activacion: <span>$249</span>",p2period:"/mes - cancela cuando quieras",
+    p2f1:"1 tienda Shopify",p2f2:"Conversaciones ilimitadas",p2f3:"10+ idiomas detectados auto",p2f4:"Pedidos, devoluciones y recomendaciones",p2f5:"Marca y colores personalizados",p2f6:"Sistema de escalada humana",p2f7:"Soporte dedicado",p2cta:"Prueba Gratis 14 Dias",
+    p3name:"Pro",p3act:"Tarifa de activacion: <span>$449</span>",p3period:"/mes - cancela cuando quieras",
+    p3f1:"Hasta 3 tiendas Shopify",p3f2:"Conversaciones ilimitadas",p3f3:"15+ idiomas detectados auto",p3f4:"Suite completa de automatizacion",p3f5:"Marca y colores personalizados",p3f6:"Sistema de escalada humana",p3f7:"Soporte dedicado 24/7",p3cta:"Empezar",
+    cta_title:"Listo para dejar<br/><em>que la IA lo maneje?</em>",cta_btn:"Ver precios",
+    footer_copy:"2025 Shopmate.ia - Todos los derechos reservados"
+  },
+  de:{
+    nav_cta:"Kostenlos testen",
+    hero_tag:"KI-Support-Agent fuer Shopify",
+    hero_sub:"Shopmate.ia beantwortet Kundenanfragen 24/7 - Bestellungen, Ruecksendungen, Empfehlungen - damit Sie sich aufs Wachstum konzentrieren.",
+    hero_cta1:"Preise ansehen",hero_cta2:"In Aktion sehen",
+    stat1:"Immer aktiv",stat2:"Antwortzeit",stat3:"Sprachen",stat4:"Installation",
+    demo_tag:"Live-Vorschau",demo_title:"<em>Shopmate.ia</em><br/>in Aktion",demo_status:"Aktiv 24/7",
+    demo_msg1:"Hallo! Wie kann ich Ihnen helfen?",demo_msg2:"Wo ist meine Bestellung #1042?",
+    demo_msg3:"Bestellung #1042 unterwegs. Lieferung morgen vor 18 Uhr. Spediteur: DHL. - Shopmate.ia",
+    feat_tag:"Was enthalten ist",feat_title:"Alles was Ihre<br/><em>Kunden brauchen</em>",
+    f1t:"Bestellverfolgung",f1d:"Echtzeit-Status, Trackingnummern, Lieferzeit - ohne menschliches Eingreifen.",
+    f2t:"Ruecksendungen und Erstattungen",f2d:"Fuehrt Kunden Schritt fuer Schritt. Keine Support-Tickets mehr.",
+    f3t:"Produktempfehlungen",f3d:"Versteht Beduerfnisse und empfiehlt die richtigen Produkte.",
+    f4t:"Automatische Spracherkennung",f4d:"Erkennt und antwortet in der Sprache des Kunden. 15+ Sprachen.",
+    f5t:"Weiterleitung an Menschen",f5d:"Erkennt komplexe Faelle und leitet an einen menschlichen Agenten weiter.",
+    f6t:"5-Minuten-Einrichtung",f6d:"Ein Snippet in theme.liquid. Keine Plugins oder technischen Kenntnisse noetig.",
+    test_tag:"Bewertungen",test_title:"Was Shop-Betreiber <em>wirklich sagen</em>",
+    t1q:"Ehrlich gesagt hatte ich anfangs wenig erwartet. Aber nach 2 Wochen sanken meine Support-Mails von 30 pro Tag auf etwa 5. Kunden bekommen sofort Antworten, auch um Mitternacht.",t1s:"Dessous und Loungewear - Lyon",
+    t2q:"Ich habe den Support selbst jeden Abend nach der Arbeit gemacht. Jetzt schaue ich nur noch einmal taeglich rein. Shopmate erledigt alles Wiederkehrende.",t2s:"Sneakers und Streetwear - Bruessel",
+    t3q:"Die Installation war wirklich schnell, maximal 10 Minuten. Der Bot verfehlt manchmal sehr spezifische Produktfragen, aber bei 90% der Anfragen stimmt es.",t3s:"Skincare und Kosmetik - Paris",
+    t4q:"Mein Shop verkauft international, also war Mehrsprachigkeit der Hauptvorteil. Kunden schreiben auf Niederlaendisch, Spanisch, Englisch - er handhabt alles.",t4s:"Wohnen und Lifestyle - Amsterdam",
+    t5q:"Black Friday war der echte Test. 3x normaler Traffic und null extra Support-Last. Der Bot hat alles gehandhabt. Ich konnte das Wochenende wirklich geniessen.",t5s:"Elektronikzubehoer - Genf",
+    t6q:"Es hat eine Woche gedauert, bis ich ihm wirklich vertraute, aber jetzt denke ich kaum noch an Support. Mehr Analysen waeren schoen, aber insgesamt sehr zufrieden.",t6s:"Kindermode - Bordeaux",
+    lang_tag:"Mehrsprachig",lang_title:"Spricht die Sprache<br/><em>Ihrer Kunden</em>",
+    price_tag:"Preise",price_title:"Einfache,<br/><em>transparente Preise</em>",popular_badge:"BELIEBTESTER PLAN",
+    p1name:"Starter",p1act:"Einmalige Einrichtungsgebuehr: <span>149$</span>",p1period:"/Monat - jederzeit kuendbar",
+    p1f1:"1 Shopify-Shop",p1f2:"500 Gespraeche pro Monat",p1f3:"3 Sprachen",p1f4:"Bestellverfolgung und FAQ",p1f5:"Eigenes Branding",p1f6:"Weiterleitung an Menschen",p1f7:"Prioritaetssupport",p1cta:"Loslegen",
+    p2name:"Growth",p2act:"Einmalige Einrichtungsgebuehr: <span>249$</span>",p2period:"/Monat - jederzeit kuendbar",
+    p2f1:"1 Shopify-Shop",p2f2:"Unbegrenzte Gespraeche",p2f3:"10+ automatisch erkannte Sprachen",p2f4:"Bestellungen, Ruecksendungen und Empfehlungen",p2f5:"Eigenes Branding und Farben",p2f6:"Weiterleitungssystem",p2f7:"Dedizierter Support",p2cta:"14 Tage kostenlos testen",
+    p3name:"Pro",p3act:"Einmalige Einrichtungsgebuehr: <span>449$</span>",p3period:"/Monat - jederzeit kuendbar",
+    p3f1:"Bis zu 3 Shopify-Shops",p3f2:"Unbegrenzte Gespraeche",p3f3:"15+ automatisch erkannte Sprachen",p3f4:"Komplette Automatisierungssuite",p3f5:"Eigenes Branding und Farben",p3f6:"Weiterleitungssystem",p3f7:"Dedizierter 24/7-Support",p3cta:"Loslegen",
+    cta_title:"Bereit die<br/><em>KI uebernehmen zu lassen?</em>",cta_btn:"Preise ansehen",
+    footer_copy:"2025 Shopmate.ia - Alle Rechte vorbehalten"
+  },
+  nl:{
+    nav_cta:"Gratis proberen",
+    hero_tag:"AI-supportagent voor Shopify",
+    hero_sub:"Shopmate.ia beantwoordt klantvragen 24/7 - bestellingen, retouren, aanbevelingen - zodat u zich op groei kunt richten.",
+    hero_cta1:"Prijzen bekijken",hero_cta2:"Bekijk het in actie",
+    stat1:"Altijd actief",stat2:"Responstijd",stat3:"Talen",stat4:"Installatie",
+    demo_tag:"Live voorbeeld",demo_title:"<em>Shopmate.ia</em><br/>in actie",demo_status:"Actief 24/7",
+    demo_msg1:"Hallo! Hoe kan ik u helpen?",demo_msg2:"Waar is mijn bestelling #1042?",
+    demo_msg3:"Bestelling #1042 onderweg. Verwachte levering morgen voor 18u. Vervoerder: DHL. - Shopmate.ia",
+    feat_tag:"Wat is inbegrepen",feat_title:"Alles wat uw<br/><em>klanten nodig hebben</em>",
+    f1t:"Besteltracking",f1d:"Realtime status, trackingnummers, geschatte levering - zonder menselijke tussenkomst.",
+    f2t:"Retouren en Terugbetalingen",f2d:"Begeleidt klanten stap voor stap. Geen supporttickets meer.",
+    f3t:"Productaanbevelingen",f3d:"Begrijpt behoeften en beveelt de juiste producten aan.",
+    f4t:"Automatische taaldetectie",f4d:"Detecteert en antwoordt in de taal van de klant. 15+ talen.",
+    f5t:"Doorzetten naar mens",f5d:"Detecteert complexe situaties en zet naadloos door naar een menselijke agent.",
+    f6t:"Installatie in 5 minuten",f6d:"Een snippet in theme.liquid. Geen plugins of technische kennis nodig.",
+    test_tag:"Beoordelingen",test_title:"Wat winkeliers <em>echt zeggen</em>",
+    t1q:"Eerlijk gezegd verwachtte ik er weinig van. Maar na 2 weken daalden mijn supportmails van 30 per dag naar zo 5. Klanten krijgen direct antwoord, zelfs om middernacht.",t1s:"Lingerie en Loungewear - Lyon",
+    t2q:"Ik deed zelf de klantenservice elke avond na het werk. Nu check ik nog maar een keer per dag. Shopmate regelt al het repetitieve werk.",t2s:"Sneakers en Streetwear - Brussel",
+    t3q:"De installatie was echt snel, maximaal 10 minuten. De bot mist soms heel specifieke productvragen maar voor 90% van de verzoeken klopt het prima.",t3s:"Skincare en Cosmetica - Parijs",
+    t4q:"Mijn winkel verkoopt internationaal dus het meertalige was het belangrijkste. Klanten schrijven in Nederlands, Spaans, Engels - het handelt alles af.",t4s:"Wonen en Lifestyle - Amsterdam",
+    t5q:"Black Friday was de echte test. 3x normaal verkeer en nul extra supportlast. De bot handelde alles af. Ik kon echt van het weekend genieten.",t5s:"Elektronica-accessoires - Geneve",
+    t6q:"Het duurde een week om het echt te vertrouwen maar nu denk ik nauwelijks meer aan support. Meer analytics zou fijn zijn maar over het algemeen erg tevreden.",t6s:"Kindermode - Bordeaux",
+    lang_tag:"Meertalig",lang_title:"Spreekt de taal<br/><em>van uw klanten</em>",
+    price_tag:"Prijzen",price_title:"Eenvoudige,<br/><em>transparante prijzen</em>",popular_badge:"MEEST POPULAIR",
+    p1name:"Starter",p1act:"Eenmalige installatiekosten: <span>$149</span>",p1period:"/maand - altijd opzegbaar",
+    p1f1:"1 Shopify-winkel",p1f2:"500 gesprekken per maand",p1f3:"3 talen",p1f4:"Besteltracking en FAQ",p1f5:"Eigen branding",p1f6:"Doorzetten naar mens",p1f7:"Prioriteitsondersteuning",p1cta:"Beginnen",
+    p2name:"Growth",p2act:"Eenmalige installatiekosten: <span>$249</span>",p2period:"/maand - altijd opzegbaar",
+    p2f1:"1 Shopify-winkel",p2f2:"Onbeperkte gesprekken",p2f3:"10+ automatisch gedetecteerde talen",p2f4:"Bestellingen, retouren en aanbevelingen",p2f5:"Eigen branding en kleuren",p2f6:"Doorzetssysteem",p2f7:"Toegewijde ondersteuning",p2cta:"14 dagen gratis proberen",
+    p3name:"Pro",p3act:"Eenmalige installatiekosten: <span>$449</span>",p3period:"/maand - altijd opzegbaar",
+    p3f1:"Tot 3 Shopify-winkels",p3f2:"Onbeperkte gesprekken",p3f3:"15+ automatisch gedetecteerde talen",p3f4:"Volledige automatiseringssuite",p3f5:"Eigen branding en kleuren",p3f6:"Doorzetssysteem",p3f7:"Toegewijde 24/7-ondersteuning",p3cta:"Beginnen",
+    cta_title:"Klaar om<br/><em>AI het te laten doen?</em>",cta_btn:"Prijzen bekijken",
+    footer_copy:"2025 Shopmate.ia - Alle rechten voorbehouden"
+  },
+  pt:{
+    nav_cta:"Teste Gratis",
+    hero_tag:"Agente IA de Suporte para Shopify",
+    hero_sub:"Shopmate.ia responde aos seus clientes 24/7 - pedidos, devolucoes, recomendacoes - para que se concentre no crescimento.",
+    hero_cta1:"Ver precos",hero_cta2:"Ver em acao",
+    stat1:"Sempre ativo",stat2:"Tempo de resposta",stat3:"Idiomas",stat4:"Instalacao",
+    demo_tag:"Pre-visualizacao",demo_title:"<em>Shopmate.ia</em><br/>em acao",demo_status:"Ativo 24/7",
+    demo_msg1:"Ola! Como posso ajudar?",demo_msg2:"Onde esta o meu pedido #1042?",
+    demo_msg3:"Pedido #1042 em transito. Entrega prevista amanha antes das 18h. Transportadora: DHL. - Shopmate.ia",
+    feat_tag:"O que esta incluido",feat_title:"Tudo que os seus<br/><em>clientes precisam</em>",
+    f1t:"Rastreamento de pedidos",f1d:"Status em tempo real, numeros de rastreamento, entrega estimada.",
+    f2t:"Devolucoes e reembolsos",f2d:"Orienta clientes passo a passo. Sem mais tickets de suporte.",
+    f3t:"Recomendacoes de produtos",f3d:"Entende as necessidades e recomenda os produtos certos.",
+    f4t:"Deteccao automatica de idioma",f4d:"Detecta e responde no idioma do cliente. Mais de 15 idiomas.",
+    f5t:"Escalada para humano",f5d:"Detecta situacoes complexas e transfere para um agente humano.",
+    f6t:"Instalacao em 5 minutos",f6d:"Um snippet no theme.liquid. Sem plugins ou conhecimentos tecnicos.",
+    test_tag:"Avaliacoes",test_title:"O que as lojas <em>realmente dizem</em>",
+    t1q:"Honestamente nao esperava muito no inicio. Mas apos 2 semanas, os meus emails de suporte cairam de 30 por dia para cerca de 5. Os clientes obtem respostas instantaneas, mesmo a meia-noite.",t1s:"Lingerie e Loungewear - Lyon",
+    t2q:"Eu mesmo fazia o suporte todas as noites apos o trabalho. Agora verifico apenas uma vez por dia. O Shopmate trata de tudo o que e repetitivo.",t2s:"Sneakers e Streetwear - Bruxelas",
+    t3q:"A instalacao foi genuinamente rapida, 10 minutos no maximo. O bot as vezes falha em perguntas muito especificas mas para 90% dos pedidos esta certo.",t3s:"Skincare e Cosmeticos - Paris",
+    t4q:"A minha loja vende internacionalmente entao o multilingue era o ponto principal. Os clientes escrevem em holandes, espanhol, ingles - ele trata de tudo.",t4s:"Casa e Lifestyle - Amesterdao",
+    t5q:"A Black Friday foi o teste real. 3x o trafego normal e zero carga extra de suporte. O bot tratou de tudo. Consegui realmente aproveitar o fim de semana.",t5s:"Acessorios Electronicos - Genebra",
+    t6q:"Demorei uma semana a confiar plenamente mas agora mal penso no suporte. Gostaria de mais analises mas no geral muito satisfeito.",t6s:"Moda Infantil - Bordeus",
+    lang_tag:"Multilingue",lang_title:"Fala o idioma<br/><em>dos seus clientes</em>",
+    price_tag:"Precos",price_title:"Precos simples,<br/><em>transparentes</em>",popular_badge:"MAIS POPULAR",
+    p1name:"Starter",p1act:"Taxa de ativacao unica: <span>$149</span>",p1period:"/mes - cancele quando quiser",
+    p1f1:"1 loja Shopify",p1f2:"500 conversas por mes",p1f3:"3 idiomas",p1f4:"Rastreamento de pedidos e FAQ",p1f5:"Marca personalizada",p1f6:"Escalada humana",p1f7:"Suporte prioritario",p1cta:"Comecar",
+    p2name:"Growth",p2act:"Taxa de ativacao unica: <span>$249</span>",p2period:"/mes - cancele quando quiser",
+    p2f1:"1 loja Shopify",p2f2:"Conversas ilimitadas",p2f3:"10+ idiomas detectados auto",p2f4:"Pedidos, devolucoes e recomendacoes",p2f5:"Marca e cores personalizadas",p2f6:"Sistema de escalada humana",p2f7:"Suporte dedicado",p2cta:"Teste Gratis 14 Dias",
+    p3name:"Pro",p3act:"Taxa de ativacao unica: <span>$449</span>",p3period:"/mes - cancele quando quiser",
+    p3f1:"Ate 3 lojas Shopify",p3f2:"Conversas ilimitadas",p3f3:"15+ idiomas detectados auto",p3f4:"Suite completa de automacao",p3f5:"Marca e cores personalizadas",p3f6:"Sistema de escalada humana",p3f7:"Suporte dedicado 24/7",p3cta:"Comecar",
+    cta_title:"Pronto para deixar<br/><em>a IA cuidar disso?</em>",cta_btn:"Ver precos",
+    footer_copy:"2025 Shopmate.ia - Todos os direitos reservados"
   }
 };
 
-// Add other languages (simplified)
-['es','de','nl','pt'].forEach(l => { T[l] = {...T.en}; });
-T.es.nav_cta="Prueba Gratis"; T.es.hero_tag="Agente IA para Shopify"; T.es.popular_badge="MÁS POPULAR"; T.es.p2cta="Prueba Gratis 14 Días";
-T.de.nav_cta="Kostenlos testen"; T.de.hero_tag="KI-Support für Shopify"; T.de.popular_badge="BELIEBTESTER PLAN"; T.de.p2cta="14 Tage kostenlos";
-T.nl.nav_cta="Gratis proberen"; T.nl.hero_tag="AI-support voor Shopify"; T.nl.popular_badge="MEEST POPULAIR"; T.nl.p2cta:"14 dagen gratis";
-T.pt.nav_cta="Teste Grátis"; T.pt.hero_tag="Agente IA para Shopify"; T.pt.popular_badge="MAIS POPULAR"; T.pt.p2cta="Teste Grátis 14 Dias";
-
 function setLang(lang) {
-  const t = T[lang]; if (!t) return;
-  document.querySelectorAll('[data-i]').forEach(el => {
-    const k = el.getAttribute('data-i');
-    if (t[k] !== undefined) el.innerHTML = t[k];
-  });
-  document.querySelectorAll('.ls-btn').forEach(b => b.classList.remove('active'));
-  const btn = document.querySelector(`.ls-btn[onclick="setLang('${lang}')"]`);
-  if (btn) btn.classList.add('active');
-  document.documentElement.lang = lang;
+  var t = T[lang];
+  if (!t) return;
+  var els = document.querySelectorAll('[data-i]');
+  for (var i = 0; i < els.length; i++) {
+    var k = els[i].getAttribute('data-i');
+    if (t[k] !== undefined) els[i].innerHTML = t[k];
+  }
+  var flagMap = {en:'EN',fr:'FR',es:'ES',de:'DE',nl:'NL',pt:'PT'};
+  var emojiMap = {en:'🇬🇧',fr:'🇫🇷',es:'🇪🇸',de:'🇩🇪',nl:'🇳🇱',pt:'🇵🇹'};
+  var fl = document.getElementById('lang-flag');
+  var cd = document.getElementById('lang-code');
+  if (fl) fl.textContent = emojiMap[lang] || '🇬🇧';
+  if (cd) cd.textContent = flagMap[lang] || 'EN';
+  var menu = document.getElementById('lang-dropdown');
+  if (menu) menu.classList.remove('open');
+  window._currentLang = lang;
 }
 
-const bl = (navigator.language||'en').slice(0,2);
-if (T[bl]) setLang(bl); else setLang('en');
+function toggleLangMenu() {
+  var dd = document.getElementById('lang-dropdown');
+  if (dd) dd.classList.toggle('open');
+}
+
+document.addEventListener('click', function(e) {
+  var dd = document.getElementById('lang-dropdown');
+  if (dd && !dd.contains(e.target)) {
+    dd.classList.remove('open');
+  }
+});
+
+var bl = (navigator.language || 'en').slice(0, 2);
+if (T[bl]) { setLang(bl); } else { setLang('en'); }
 </script>
 </body>
 </html>
