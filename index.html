@@ -24,6 +24,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:fl
 .nav-logo span{color:var(--white)}
 .nav-cta{background:var(--gold);color:var(--black);border:none;padding:10px 24px;font-family:var(--font-mono);font-size:12px;cursor:pointer;letter-spacing:1px;text-transform:uppercase}
 .nav-cta:hover{background:var(--gold2)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-family:var(--font-mono);font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:1px;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-right{display:flex;align-items:center;gap:16px}
+@media(max-width:760px){.nav-links{display:none}}
 
 #hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 40px 80px;position:relative;overflow:hidden}
 .hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
@@ -36,11 +41,11 @@ h1 em{font-style:italic;color:var(--gold)}
 .btn-primary:hover{background:var(--gold2);transform:translateY(-2px)}
 .btn-ghost{background:transparent;color:var(--gold);border:0.5px solid var(--gold);padding:16px 40px;font-family:var(--font-mono);font-size:13px;cursor:pointer;letter-spacing:1px;transition:all 0.2s}
 .btn-ghost:hover{background:var(--gold3)}
-.hero-stat-row{display:flex;gap:48px;margin-top:80px;opacity:0;animation:fadeUp 0.8s ease 1s forwards;flex-wrap:wrap;justify-content:center}
+.hero-stat-row{display:flex;gap:48px;margin-top:48px;opacity:0;animation:fadeUp 0.8s ease 1s forwards;flex-wrap:wrap;justify-content:center}
 .hero-stat .num{font-size:42px;font-weight:300;color:var(--gold);line-height:1}
 .hero-stat .label{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:1px}
 
-#demo{padding:100px 40px;display:flex;flex-direction:column;align-items:center;gap:60px}
+#demo{padding:64px 40px;display:flex;flex-direction:column;align-items:center;gap:36px}
 .section-tag{font-family:var(--font-mono);font-size:11px;color:var(--gold);letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:16px}
 .section-title{font-size:clamp(36px,5vw,64px);font-weight:300;text-align:center;line-height:1.1}
 .section-title em{font-style:italic;color:var(--gold)}
@@ -58,8 +63,8 @@ h1 em{font-style:italic;color:var(--gold)}
 .cp-msg.u .cp-bub{background:var(--gold);color:#000;font-weight:500;border-radius:12px 4px 12px 12px}
 .cp-av-sm{width:24px;height:24px;border-radius:50%;background:#1a1a1a;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--gold);flex-shrink:0}
 
-#features{padding:100px 40px;max-width:1100px;margin:0 auto}
-.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;margin-top:60px}
+#features{padding:64px 40px;max-width:1100px;margin:0 auto}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;margin-top:40px}
 .feat-card{background:var(--card);padding:36px 32px;border:0.5px solid #1a1a1a;transition:border-color 0.2s}
 .feat-card:hover{border-color:rgba(201,168,76,0.3)}
 .feat-icon{font-size:28px;margin-bottom:20px}
@@ -67,8 +72,8 @@ h1 em{font-style:italic;color:var(--gold)}
 .feat-desc{font-family:var(--font-mono);font-size:12px;color:var(--muted);line-height:1.7}
 
 /* PRICING 3 PLANS */
-#pricing{padding:100px 40px;display:flex;flex-direction:column;align-items:center}
-.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;max-width:1000px;width:100%;margin-top:60px}
+#pricing{padding:64px 40px;display:flex;flex-direction:column;align-items:center}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;max-width:1000px;width:100%;margin-top:40px}
 .plan-card{background:var(--card);border:0.5px solid #1a1a1a;padding:44px 36px;position:relative;transition:border-color 0.2s}
 .plan-card:hover{border-color:rgba(201,168,76,0.3)}
 .plan-card.popular{border-color:var(--gold)}
@@ -90,11 +95,11 @@ h1 em{font-style:italic;color:var(--gold)}
 .plan-card:not(.popular) .plan-cta:hover{background:var(--gold3)}
 
 /* FOUNDER */
-#founder{padding:100px 40px;max-width:760px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center}
+#founder{padding:64px 40px;max-width:760px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center}
 .founder-text{font-size:21px;font-weight:300;line-height:1.8;color:var(--white);max-width:680px;margin:28px auto 40px}
 .founder-text em{font-style:italic;color:var(--gold)}
 
-#langs{padding:80px 40px;text-align:center}
+#langs{padding:48px 40px;text-align:center}
 .lang-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:40px}
 .lang-pill{background:var(--card);border:0.5px solid #222;padding:8px 18px;font-family:var(--font-mono);font-size:12px;color:var(--muted);border-radius:20px}
 .divider{width:40px;height:0.5px;background:var(--gold);margin:0 auto 24px;opacity:0.5}
@@ -126,6 +131,12 @@ footer{padding:40px;border-top:0.5px solid #1a1a1a;display:flex;align-items:cent
 
 <nav>
   <div class="nav-logo">Shopmate<span>.ia</span></div>
+  <div class="nav-links">
+    <a href="#features" data-i="nav_features">Features</a>
+    <a href="#pricing" data-i="nav_pricing">Pricing</a>
+    <a href="#demo" data-i="nav_demo">Demo</a>
+  </div>
+  <div class="nav-right">
   <div id="lang-dropdown">
     <button id="lang-btn" onclick="toggleLangMenu()">
       <span id="lang-flag">🇬🇧</span>
@@ -142,6 +153,7 @@ footer{padding:40px;border-top:0.5px solid #1a1a1a;display:flex;align-items:cent
     </div>
   </div>
   <button class="nav-cta" onclick="document.getElementById('contact-form').scrollIntoView({behavior:'smooth'})" data-i="nav_cta">Join Beta</button>
+  </div>
 </nav>
 
 <section id="hero">
@@ -283,12 +295,7 @@ footer{padding:40px;border-top:0.5px solid #1a1a1a;display:flex;align-items:cent
   </div>
 </section>
 
-<section id="cta-final">
-  <h2 class="cta-title" data-i="cta_title">Ready to let<br/><em>AI handle it?</em></h2>
-  <button class="btn-primary" style="font-size:15px;padding:20px 56px" onclick="document.getElementById('contact-form').scrollIntoView({behavior:'smooth'})" data-i="cta_btn">Request Beta Access</button>
-</section>
-
-<section id="contact-form" style="padding:100px 40px;display:flex;flex-direction:column;align-items:center;position:relative">
+<section id="contact-form" style="padding:64px 40px 80px;display:flex;flex-direction:column;align-items:center;position:relative">
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,168,76,0.05) 0%,transparent 70%);pointer-events:none"></div>
   <div class="section-tag" data-i="form_tag">Join the Beta</div>
   <h2 class="section-title" style="margin-bottom:16px" data-i="form_title">Get <em>early access</em></h2>
@@ -297,12 +304,23 @@ footer{padding:40px;border-top:0.5px solid #1a1a1a;display:flex;align-items:cent
     <input type="text" id="f-name" placeholder="Your name" required style="background:#111;border:0.5px solid #2a2a2a;border-radius:6px;padding:14px 18px;font-family:var(--font-mono);font-size:13px;color:var(--text);outline:none;width:100%" onfocus="this.style.borderColor='#C9A84C'" onblur="this.style.borderColor='#2a2a2a'"/>
     <input type="email" id="f-email" placeholder="Your email" required style="background:#111;border:0.5px solid #2a2a2a;border-radius:6px;padding:14px 18px;font-family:var(--font-mono);font-size:13px;color:var(--text);outline:none;width:100%" onfocus="this.style.borderColor='#C9A84C'" onblur="this.style.borderColor='#2a2a2a'"/>
     <input type="text" id="f-shop" placeholder="Your Shopify store URL (mystore.myshopify.com)" style="background:#111;border:0.5px solid #2a2a2a;border-radius:6px;padding:14px 18px;font-family:var(--font-mono);font-size:13px;color:var(--text);outline:none;width:100%" onfocus="this.style.borderColor='#C9A84C'" onblur="this.style.borderColor='#2a2a2a'"/>
+    <select id="f-lang" required style="background:#111;border:0.5px solid #2a2a2a;border-radius:6px;padding:14px 18px;font-family:var(--font-mono);font-size:13px;color:var(--muted);outline:none;width:100%;cursor:pointer" onfocus="this.style.borderColor='#C9A84C'" onblur="this.style.borderColor='#2a2a2a'">
+      <option value="">Preferred language / Langue préférée</option>
+      <option value="Français">Français</option>
+      <option value="English">English</option>
+      <option value="Español">Español</option>
+      <option value="Deutsch">Deutsch</option>
+      <option value="Nederlands">Nederlands</option>
+      <option value="Português">Português</option>
+      <option value="Other / Autre">Other / Autre</option>
+    </select>
     <select id="f-plan" style="background:#111;border:0.5px solid #2a2a2a;border-radius:6px;padding:14px 18px;font-family:var(--font-mono);font-size:13px;color:var(--muted);outline:none;width:100%;cursor:pointer" onfocus="this.style.borderColor='#C9A84C'" onblur="this.style.borderColor='#2a2a2a'">
       <option value="">Select a plan</option>
       <option value="Starter - $149 + $49/mo">Starter - $149 activation + $49/month</option>
       <option value="Growth - $249 + $99/mo">Growth - $249 activation + $99/month</option>
       <option value="Pro - $449 + $179/mo">Pro - $449 activation + $179/month</option>
     </select>
+    <textarea id="f-message" placeholder="Why are you interested in Shopmate? / Pourquoi ce service ? (optional)" style="background:#111;border:0.5px solid #2a2a2a;border-radius:6px;padding:14px 18px;font-family:var(--font-mono);font-size:13px;color:var(--text);outline:none;width:100%;resize:vertical;min-height:80px" onfocus="this.style.borderColor='#C9A84C'" onblur="this.style.borderColor='#2a2a2a'"></textarea>
     <button type="submit" class="btn-primary" style="width:100%;padding:16px;font-size:14px;margin-top:8px" data-i="form_btn">Request Beta Access</button>
     <div id="form-success" style="display:none;text-align:center;font-family:var(--font-mono);font-size:13px;color:var(--gold);padding:16px;background:var(--gold3);border:0.5px solid var(--gold);border-radius:6px">
       Request sent! We will contact you within 24h. - Shopmate.ia
@@ -318,7 +336,7 @@ footer{padding:40px;border-top:0.5px solid #1a1a1a;display:flex;align-items:cent
 <script>
 var T = {
   en:{
-    nav_cta:"Join Beta",
+    nav_cta:"Join Beta",nav_features:"Features",nav_pricing:"Pricing",nav_demo:"Demo",
     hero_tag:"AI Support Agent for Shopify",
     hero_sub:"Shopmate.ia answers your customers 24/7 - orders, returns, recommendations - so you can focus on growing your business.",
     hero_cta1:"See Plans & Pricing",hero_cta2:"See it in action",
@@ -348,7 +366,7 @@ var T = {
     form_tag:"Join the Beta",form_title:"Get <em>early access</em>",form_sub:"Limited beta spots available. Fill in your details and we will get back to you within 24h to set everything up.",form_btn:"Request Beta Access",footer_copy:"2025 Shopmate.ia - All rights reserved"
   },
   fr:{
-    nav_cta:"Rejoindre la beta",
+    nav_cta:"Rejoindre la beta",nav_features:"Fonctionnalités",nav_pricing:"Tarifs",nav_demo:"Démo",
     hero_tag:"Agent IA Support pour Shopify",
     hero_sub:"Shopmate.ia repond a vos clients 24h/24 - commandes, retours, recommandations - pour que vous vous concentriez sur votre croissance.",
     hero_cta1:"Voir les offres",hero_cta2:"Voir en action",
@@ -378,7 +396,7 @@ var T = {
     form_tag:"Rejoindre la Beta",form_title:"Obtenir un <em>acces anticipe</em>",form_sub:"Places beta limitees. Remplissez vos informations et nous vous recontactons sous 24h pour tout configurer.",form_btn:"Demander l'acces beta",footer_copy:"2025 Shopmate.ia - Tous droits reserves"
   },
   es:{
-    nav_cta:"Unirse a la beta",
+    nav_cta:"Unirse a la beta",nav_features:"Funciones",nav_pricing:"Precios",nav_demo:"Demo",
     hero_tag:"Agente IA de Soporte para Shopify",
     hero_sub:"Shopmate.ia responde a tus clientes 24/7 - pedidos, devoluciones, recomendaciones - para que te concentres en crecer.",
     hero_cta1:"Ver precios",hero_cta2:"Ver en accion",
@@ -408,7 +426,7 @@ var T = {
     form_tag:"Unirse a la Beta",form_title:"Obtener <em>acceso anticipado</em>",form_sub:"Plazas beta limitadas. Rellena tus datos y te contactaremos en 24h.",form_btn:"Solicitar acceso beta",footer_copy:"2025 Shopmate.ia - Todos los derechos reservados"
   },
   de:{
-    nav_cta:"Beta beitreten",
+    nav_cta:"Beta beitreten",nav_features:"Funktionen",nav_pricing:"Preise",nav_demo:"Demo",
     hero_tag:"KI-Support-Agent fuer Shopify",
     hero_sub:"Shopmate.ia beantwortet Kundenanfragen 24/7 - Bestellungen, Ruecksendungen, Empfehlungen - damit Sie sich aufs Wachstum konzentrieren.",
     hero_cta1:"Preise ansehen",hero_cta2:"In Aktion sehen",
@@ -438,7 +456,7 @@ var T = {
     form_tag:"Beta beitreten",form_title:"<em>Fruehzeitigen Zugang</em> erhalten",form_sub:"Begrenzte Beta-Plaetze. Tragen Sie Ihre Daten ein und wir melden uns innerhalb von 24h.",form_btn:"Beta-Zugang anfragen",footer_copy:"2025 Shopmate.ia - Alle Rechte vorbehalten"
   },
   nl:{
-    nav_cta:"Beta deelnemen",
+    nav_cta:"Beta deelnemen",nav_features:"Functies",nav_pricing:"Prijzen",nav_demo:"Demo",
     hero_tag:"AI-supportagent voor Shopify",
     hero_sub:"Shopmate.ia beantwoordt klantvragen 24/7 - bestellingen, retouren, aanbevelingen - zodat u zich op groei kunt richten.",
     hero_cta1:"Prijzen bekijken",hero_cta2:"Bekijk het in actie",
@@ -468,7 +486,7 @@ var T = {
     form_tag:"Beta deelnemen",form_title:"<em>Vroege toegang</em> krijgen",form_sub:"Beperkte beta-plekken. Vul uw gegevens in en we nemen binnen 24u contact op.",form_btn:"Beta-toegang aanvragen",footer_copy:"2025 Shopmate.ia - Alle rechten voorbehouden"
   },
   pt:{
-    nav_cta:"Juntar-se a beta",
+    nav_cta:"Juntar-se a beta",nav_features:"Funcionalidades",nav_pricing:"Preços",nav_demo:"Demo",
     hero_tag:"Agente IA de Suporte para Shopify",
     hero_sub:"Shopmate.ia responde aos seus clientes 24/7 - pedidos, devolucoes, recomendacoes - para que se concentre no crescimento.",
     hero_cta1:"Ver precos",hero_cta2:"Ver em acao",
@@ -540,7 +558,9 @@ async function submitForm(e) {
     name: document.getElementById('f-name').value,
     email: document.getElementById('f-email').value,
     shop: document.getElementById('f-shop').value,
-    plan: document.getElementById('f-plan').value
+    language: document.getElementById('f-lang').value,
+    plan: document.getElementById('f-plan').value,
+    message: document.getElementById('f-message').value
   };
 
   try {
