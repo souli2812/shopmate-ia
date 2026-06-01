@@ -100,7 +100,7 @@ h1 em{font-style:italic;color:var(--gold)}
 .divider{width:40px;height:0.5px;background:var(--gold);margin:0 auto 24px;opacity:0.5}
 
 #cta-final{padding:120px 40px;text-align:center;position:relative;overflow:hidden}
-#cta-final::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,168,76,0.06) 0%,transparent 70%)}
+#cta-final::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,168,76,0.06) 0%,transparent 70%);pointer-events:none}
 .cta-title{font-size:clamp(40px,6vw,80px);font-weight:300;line-height:1.1;margin-bottom:32px}
 .cta-title em{font-style:italic;color:var(--gold)}
 
@@ -289,7 +289,7 @@ footer{padding:40px;border-top:0.5px solid #1a1a1a;display:flex;align-items:cent
 </section>
 
 <section id="contact-form" style="padding:100px 40px;display:flex;flex-direction:column;align-items:center;position:relative">
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,168,76,0.05) 0%,transparent 70%)"></div>
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,168,76,0.05) 0%,transparent 70%);pointer-events:none"></div>
   <div class="section-tag" data-i="form_tag">Join the Beta</div>
   <h2 class="section-title" style="margin-bottom:16px" data-i="form_title">Get <em>early access</em></h2>
   <p style="font-family:var(--font-mono);font-size:13px;color:var(--muted);text-align:center;max-width:400px;line-height:1.6;margin-bottom:48px" data-i="form_sub">Limited beta spots available. Fill in your details and we will get back to you within 24h to set everything up.</p>
