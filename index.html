@@ -124,7 +124,38 @@ footer{padding:40px;border-top:0.5px solid #1a1a1a;display:flex;align-items:cent
 .lang-opt:hover{background:#1a1a1a;color:var(--gold)}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:600px){nav{padding:16px 20px}#hero{padding:100px 24px 60px}.hero-stat-row{gap:28px}footer{flex-direction:column;text-align:center}.pricing-grid{grid-template-columns:1fr}}
+@media(max-width:760px){
+  nav{padding:14px 20px}
+  .nav-cta{padding:10px 18px;font-size:11px}
+}
+@media(max-width:600px){
+  nav{padding:14px 16px}
+  #hero{padding:80px 20px 48px;min-height:auto}
+  h1{font-size:clamp(36px,9vw,52px);margin-bottom:20px}
+  .hero-sub{font-size:12px;margin-bottom:28px;max-width:100%}
+  .hero-btns{flex-direction:column;align-items:center;gap:10px}
+  .btn-primary,.btn-ghost{width:100%;max-width:280px;padding:14px 24px;font-size:12px}
+  .hero-stat-row{gap:16px;margin-top:28px}
+  .hero-stat .num{font-size:30px}
+  .hero-stat .label{font-size:10px}
+  #demo{padding:48px 20px;gap:20px}
+  .chat-preview{max-width:100%}
+  .section-title{font-size:clamp(26px,7vw,40px)}
+  #features{padding:48px 20px}
+  .feat-grid{grid-template-columns:1fr}
+  .feat-card{padding:28px 20px}
+  #pricing{padding:48px 20px}
+  .pricing-grid{grid-template-columns:1fr;gap:12px}
+  .plan-card{padding:32px 20px}
+  #founder{padding:48px 20px}
+  #langs{padding:32px 20px}
+  .lang-row{gap:8px}
+  section[id="contact-form"]{padding:48px 20px 60px!important}
+  #beta-form{width:100%}
+  footer{flex-direction:column;text-align:center;padding:40px 20px;gap:20px}
+  .footer-links{gap:14px;flex-wrap:wrap;justify-content:center}
+  .footer-copy{font-size:10px}
+}
 </style>
 </head>
 <body>
