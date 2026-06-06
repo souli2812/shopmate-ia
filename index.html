@@ -155,7 +155,36 @@ footer{padding:40px;border-top:0.5px solid #1a1a1a;display:flex;align-items:cent
   footer{flex-direction:column;text-align:center;padding:40px 20px;gap:20px}
   .footer-links{gap:14px;flex-wrap:wrap;justify-content:center}
   .footer-copy{font-size:10px}
+  #pain{padding:48px 20px}
+  .pain-grid{grid-template-columns:1fr}
+  .pain-card{padding:28px 20px}
+  #how{padding:48px 20px}
+  .how-steps{gap:32px}
+  .how-num{font-size:40px}
+  #faq{padding:48px 20px}
+  .faq-q{font-size:13px}
 }
+/* PAIN */
+#pain{padding:64px 40px;max-width:1100px;margin:0 auto;text-align:center}
+.pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;margin-top:40px}
+.pain-card{background:#080808;border:0.5px solid #1c1c1c;padding:40px 32px;text-align:left;transition:border-color .2s}
+.pain-card:hover{border-color:rgba(201,168,76,.2)}
+.pain-icon{font-size:32px;margin-bottom:16px}
+.pain-card p{font-family:var(--font-mono);font-size:14px;color:var(--muted);line-height:1.75}
+/* HOW */
+#how{padding:64px 40px;max-width:960px;margin:0 auto;text-align:center}
+.how-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:48px;margin-top:56px;text-align:left}
+.how-num{font-size:56px;font-weight:300;color:rgba(201,168,76,.15);line-height:1;margin-bottom:14px;font-family:var(--font-display)}
+.how-step-title{font-size:18px;font-weight:400;color:var(--white);margin-bottom:8px}
+/* FAQ */
+#faq{padding:64px 40px;max-width:760px;margin:0 auto}
+.faq-list{margin-top:48px}
+.faq-item{border-bottom:.5px solid #1a1a1a;cursor:pointer;padding:0 4px;user-select:none}
+.faq-q{padding:20px 0;display:flex;justify-content:space-between;align-items:center;font-size:15px;color:var(--white);gap:16px}
+.faq-a{display:none;padding:0 0 20px;font-family:var(--font-mono);font-size:13px;color:var(--muted);line-height:1.7}
+.faq-item.open .faq-a{display:block}
+.faq-arrow{color:var(--gold);font-size:14px;transition:transform .2s;display:inline-block;flex-shrink:0}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
 </style>
 </head>
 <body>
@@ -207,6 +236,17 @@ footer{padding:40px;border-top:0.5px solid #1a1a1a;display:flex;align-items:cent
   </div>
 </section>
 
+
+<section id="pain">
+  <div class="section-tag" data-i="pain_tag">Before Shopmate.ia</div>
+  <h2 class="section-title" data-i="pain_title">Sound <em>familiar?</em></h2>
+  <div class="pain-grid">
+    <div class="pain-card"><div class="pain-icon">🌙</div><p data-i="pain_p1">A customer asks “Where’s my order?” at 11pm… you’re asleep.</p></div>
+    <div class="pain-card"><div class="pain-icon">🔁</div><p data-i="pain_p2">You lose sales replying to the same question for the 50th time.</p></div>
+    <div class="pain-card"><div class="pain-icon">⏱</div><p data-i="pain_p3">Customer support takes 2h/day. You run a store — not a call center.</p></div>
+  </div>
+</section>
+
 <section id="demo">
   <div>
     <div class="section-tag" data-i="demo_tag">Live Preview</div>
@@ -238,6 +278,17 @@ footer{padding:40px;border-top:0.5px solid #1a1a1a;display:flex;align-items:cent
     <div class="feat-card"><div class="feat-icon">🌍</div><div class="feat-title" data-i="f4t">Auto Language Detection</div><div class="feat-desc" data-i="f4d">Automatically detects and responds in the customer's language. 15+ languages supported.</div></div>
     <div class="feat-card"><div class="feat-icon">👤</div><div class="feat-title" data-i="f5t">Human Escalation</div><div class="feat-desc" data-i="f5d">Detects complex situations and seamlessly transfers to a human agent with full context.</div></div>
     <div class="feat-card"><div class="feat-icon">⚡</div><div class="feat-title" data-i="f6t">5-Minute Setup</div><div class="feat-desc" data-i="f6d">One snippet in your theme.liquid. No plugins, no app store, no technical skills needed.</div></div>
+  </div>
+</section>
+
+
+<section id="how">
+  <div class="section-tag" data-i="how_tag">How it works</div>
+  <h2 class="section-title" data-i="how_title">Live in <em>5 minutes</em></h2>
+  <div class="how-steps">
+    <div class="how-step"><div class="how-num">01</div><div class="how-step-title" data-i="how_s1">Paste one snippet</div><p class="feat-desc" data-i="how_s1d">One line of code in theme.liquid. No plugins, no App Store, no developer.</p></div>
+    <div class="how-step"><div class="how-num">02</div><div class="how-step-title" data-i="how_s2">Configure your store</div><p class="feat-desc" data-i="how_s2d">Store name, language and return policy. 2 minutes.</p></div>
+    <div class="how-step"><div class="how-num">03</div><div class="how-step-title" data-i="how_s3">Your bot is live</div><p class="feat-desc" data-i="how_s3d">Customers get instant answers 24/7. You focus on growing.</p></div>
   </div>
 </section>
 
@@ -326,6 +377,19 @@ footer{padding:40px;border-top:0.5px solid #1a1a1a;display:flex;align-items:cent
   </div>
 </section>
 
+
+<section id="faq">
+  <div class="section-tag" data-i="faq_tag">FAQ</div>
+  <h2 class="section-title" style="text-align:center" data-i="faq_title">Your questions <em>answered</em></h2>
+  <div class="faq-list">
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q"><span data-i="faq_q1">How long does setup take?</span><span class="faq-arrow">↓</span></div><div class="faq-a" data-i="faq_a1">Under 5 minutes. One snippet in theme.liquid and the bot is live immediately.</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q"><span data-i="faq_q2">Does it work with my Shopify theme?</span><span class="faq-arrow">↓</span></div><div class="faq-a" data-i="faq_a2">Yes, with any theme. The widget floats above your design without modifying anything.</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q"><span data-i="faq_q3">What if the bot cannot answer?</span><span class="faq-arrow">↓</span></div><div class="faq-a" data-i="faq_a3">The bot detects complex situations and escalates to a human agent with full conversation history.</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q"><span data-i="faq_q4">Can I cancel anytime?</span><span class="faq-arrow">↓</span></div><div class="faq-a" data-i="faq_a4">Yes. No commitment, no hidden fees. Cancel in one click. Keep your data.</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q"><span data-i="faq_q5">What languages are supported?</span><span class="faq-arrow">↓</span></div><div class="faq-a" data-i="faq_a5">15+ languages auto-detected. French, English, Spanish, German, Dutch, Portuguese and more.</div></div>
+  </div>
+</section>
+
 <section id="contact-form" style="padding:64px 40px 80px;display:flex;flex-direction:column;align-items:center;position:relative">
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,168,76,0.05) 0%,transparent 70%);pointer-events:none"></div>
   <div class="section-tag" data-i="form_tag">Join the Beta</div>
@@ -367,7 +431,7 @@ footer{padding:40px;border-top:0.5px solid #1a1a1a;display:flex;align-items:cent
 <script>
 var T = {
   en:{
-    nav_cta:"Join Beta",nav_features:"Features",nav_pricing:"Pricing",nav_demo:"Demo",
+    nav_cta:"Join Beta",nav_features:"Features",nav_pricing:"Pricing",nav_demo:"Demo",pain_tag:"Before Shopmate.ia",pain_title:"Sound <em>familiar?</em>",pain_p1:"A customer asks where their order is at 11pm… you’re asleep.",pain_p2:"You lose sales replying to the same question for the 50th time.",pain_p3:"Customer support takes 2h/day. You run a store — not a call center.",how_tag:"How it works",how_title:"Live in <em>5 minutes</em>",how_s1:"Paste one snippet",how_s1d:"One line in theme.liquid. No plugins, no App Store.",how_s2:"Configure your store",how_s2d:"Name, language and return policy. 2 minutes.",how_s3:"Your bot is live",how_s3d:"Customers get instant answers 24/7.",faq_tag:"FAQ",faq_title:"Your questions <em>answered</em>",faq_q1:"How long does setup take?",faq_a1:"Under 5 minutes. One snippet in theme.liquid.",faq_q2:"Does it work with my Shopify theme?",faq_a2:"Yes, with any theme.",faq_q3:"What if the bot cannot answer?",faq_a3:"It escalates to a human agent with full context.",faq_q4:"Can I cancel anytime?",faq_a4:"Yes. No commitment, no hidden fees.",faq_q5:"What languages are supported?",faq_a5:"15+ languages auto-detected.",
     hero_tag:"AI Support Agent for Shopify",
     hero_sub:"Shopmate.ia answers your customers 24/7 - orders, returns, recommendations - so you can focus on growing your business.",
     hero_cta1:"See Plans & Pricing",hero_cta2:"See it in action",
@@ -397,7 +461,7 @@ var T = {
     form_tag:"Join the Beta",form_title:"Get <em>early access</em>",form_sub:"Limited beta spots available. Fill in your details and we will get back to you within 24h to set everything up.",form_btn:"Request Beta Access",footer_copy:"2026 Shopmate.ia - All rights reserved"
   },
   fr:{
-    nav_cta:"Rejoindre la beta",nav_features:"Fonctionnalités",nav_pricing:"Tarifs",nav_demo:"Démo",
+    nav_cta:"Rejoindre la beta",nav_features:"Fonctionnalités",nav_pricing:"Tarifs",nav_demo:"Démo",pain_tag:"Avant Shopmate.ia",pain_title:"Vous vous <em>reconnaissez ?</em>",pain_p1:"Un client demande où est sa commande à 23h… vous dormez.",pain_p2:"Vous perdez des ventes en répondant 50 fois à la même question.",pain_p3:"Le support vous prend 2h par jour. Vous gérez une boutique — pas un centre d’appels.",how_tag:"Comment ça marche",how_title:"Opérationnel en <em>5 minutes</em>",how_s1:"Coller un snippet",how_s1d:"Une ligne dans theme.liquid. Sans plugin, sans App Store.",how_s2:"Configurer votre boutique",how_s2d:"Nom, langue et politique de retour. 2 minutes.",how_s3:"Votre bot est actif",how_s3d:"Vos clients reçoivent des réponses instantanées 24h/24.",faq_tag:"FAQ",faq_title:"Vos questions ont des <em>réponses</em>",faq_q1:"Combien de temps prend l’installation ?",faq_a1:"Moins de 5 minutes.",faq_q2:"Ça fonctionne avec mon thème Shopify ?",faq_a2:"Oui, avec n’importe quel thème.",faq_q3:"Et si le bot ne peut pas répondre ?",faq_a3:"Il transfère à un agent humain avec tout l’historique.",faq_q4:"Puis-je annuler à tout moment ?",faq_a4:"Oui. Sans engagement, sans frais cachés.",faq_q5:"Quelles langues sont supportées ?",faq_a5:"15+ langues détectées automatiquement.",
     hero_tag:"Agent IA Support pour Shopify",
     hero_sub:"Shopmate.ia repond a vos clients 24h/24 - commandes, retours, recommandations - pour que vous vous concentriez sur votre croissance.",
     hero_cta1:"Voir les offres",hero_cta2:"Voir en action",
@@ -427,7 +491,7 @@ var T = {
     form_tag:"Rejoindre la Beta",form_title:"Obtenir un <em>acces anticipe</em>",form_sub:"Places beta limitees. Remplissez vos informations et nous vous recontactons sous 24h pour tout configurer.",form_btn:"Demander l'acces beta",footer_copy:"2026 Shopmate.ia - Tous droits reserves"
   },
   es:{
-    nav_cta:"Unirse a la beta",nav_features:"Funciones",nav_pricing:"Precios",nav_demo:"Demo",
+    nav_cta:"Unirse a la beta",nav_features:"Funciones",nav_pricing:"Precios",nav_demo:"Demo",pain_tag:"Antes de Shopmate.ia",pain_title:"¿Te <em>suena?</em>",pain_p1:"Un cliente pregunta por su pedido a las 23h… estás durmiendo.",pain_p2:"Pierdes ventas respondiendo la misma pregunta por 50ª vez.",pain_p3:"El soporte te lleva 2h al día. Tienes una tienda — no un call center.",how_tag:"Cómo funciona",how_title:"En marcha en <em>5 minutos</em>",how_s1:"Pegar un snippet",how_s1d:"Una línea en theme.liquid.",how_s2:"Configurar",how_s2d:"2 minutos.",how_s3:"Tu bot está activo",how_s3d:"Respuestas instantáneas 24/7.",faq_tag:"FAQ",faq_title:"Sus preguntas <em>respondidas</em>",faq_q1:"¿Cuánto tarda?",faq_a1:"Menos de 5 minutos.",faq_q2:"¿Funciona con mi tema?",faq_a2:"Sí.",faq_q3:"¿Si el bot no puede?",faq_a3:"Escala a humano.",faq_q4:"¿Cancelar?",faq_a4:"Sí, sin compromiso.",faq_q5:"¿Idiomas?",faq_a5:"Más de 15.",
     hero_tag:"Agente IA de Soporte para Shopify",
     hero_sub:"Shopmate.ia responde a tus clientes 24/7 - pedidos, devoluciones, recomendaciones - para que te concentres en crecer.",
     hero_cta1:"Ver precios",hero_cta2:"Ver en accion",
@@ -457,7 +521,7 @@ var T = {
     form_tag:"Unirse a la Beta",form_title:"Obtener <em>acceso anticipado</em>",form_sub:"Plazas beta limitadas. Rellena tus datos y te contactaremos en 24h.",form_btn:"Solicitar acceso beta",footer_copy:"2026 Shopmate.ia - Todos los derechos reservados"
   },
   de:{
-    nav_cta:"Beta beitreten",nav_features:"Funktionen",nav_pricing:"Preise",nav_demo:"Demo",
+    nav_cta:"Beta beitreten",nav_features:"Funktionen",nav_pricing:"Preise",nav_demo:"Demo",pain_tag:"Vor Shopmate.ia",pain_title:"Kommt dir das <em>bekannt vor?</em>",pain_p1:"Ein Kunde fragt um 23 Uhr nach seiner Bestellung… du schläfst.",pain_p2:"Du verlierst Verkäufe beim 50. Mal mit derselben Frage.",pain_p3:"Support kostet 2h/Tag.",how_tag:"So funktioniert es",how_title:"Live in <em>5 Minuten</em>",how_s1:"Snippet einfügen",how_s1d:"Eine Zeile in theme.liquid.",how_s2:"Konfigurieren",how_s2d:"2 Minuten.",how_s3:"Bot ist aktiv",how_s3d:"Sofortige Antworten 24/7.",faq_tag:"FAQ",faq_title:"Ihre Fragen <em>beantwortet</em>",faq_q1:"Einrichtungszeit?",faq_a1:"Unter 5 Minuten.",faq_q2:"Mein Theme?",faq_a2:"Ja.",faq_q3:"Bot antwortet nicht?",faq_a3:"Eskalation zum Agenten.",faq_q4:"Kündigung?",faq_a4:"Ja.",faq_q5:"Sprachen?",faq_a5:"15+.",
     hero_tag:"KI-Support-Agent fuer Shopify",
     hero_sub:"Shopmate.ia beantwortet Kundenanfragen 24/7 - Bestellungen, Ruecksendungen, Empfehlungen - damit Sie sich aufs Wachstum konzentrieren.",
     hero_cta1:"Preise ansehen",hero_cta2:"In Aktion sehen",
@@ -487,7 +551,7 @@ var T = {
     form_tag:"Beta beitreten",form_title:"<em>Fruehzeitigen Zugang</em> erhalten",form_sub:"Begrenzte Beta-Plaetze. Tragen Sie Ihre Daten ein und wir melden uns innerhalb von 24h.",form_btn:"Beta-Zugang anfragen",footer_copy:"2026 Shopmate.ia - Alle Rechte vorbehalten"
   },
   nl:{
-    nav_cta:"Beta deelnemen",nav_features:"Functies",nav_pricing:"Prijzen",nav_demo:"Demo",
+    nav_cta:"Beta deelnemen",nav_features:"Functies",nav_pricing:"Prijzen",nav_demo:"Demo",pain_tag:"Vóór Shopmate.ia",pain_title:"Herken je <em>dit?</em>",pain_p1:"Een klant vraagt naar zijn bestelling om 23u… je slaapt.",pain_p2:"Je verliest verkopen door steeds dezelfde vraag.",pain_p3:"Support kost 2u/dag.",how_tag:"Hoe het werkt",how_title:"Live in <em>5 minuten</em>",how_s1:"Snippet plakken",how_s1d:"Eén regel in theme.liquid.",how_s2:"Configureer",how_s2d:"2 minuten.",how_s3:"Bot is live",how_s3d:"Directe antwoorden 24/7.",faq_tag:"FAQ",faq_title:"Uw vragen <em>beantwoord</em>",faq_q1:"Installatie?",faq_a1:"Minder dan 5 minuten.",faq_q2:"Mijn thema?",faq_a2:"Ja.",faq_q3:"Bot antwoordt niet?",faq_a3:"Escaleert naar agent.",faq_q4:"Opzeggen?",faq_a4:"Ja.",faq_q5:"Talen?",faq_a5:"15+.",
     hero_tag:"AI-supportagent voor Shopify",
     hero_sub:"Shopmate.ia beantwoordt klantvragen 24/7 - bestellingen, retouren, aanbevelingen - zodat u zich op groei kunt richten.",
     hero_cta1:"Prijzen bekijken",hero_cta2:"Bekijk het in actie",
@@ -517,7 +581,7 @@ var T = {
     form_tag:"Beta deelnemen",form_title:"<em>Vroege toegang</em> krijgen",form_sub:"Beperkte beta-plekken. Vul uw gegevens in en we nemen binnen 24u contact op.",form_btn:"Beta-toegang aanvragen",footer_copy:"2026 Shopmate.ia - Alle rechten voorbehouden"
   },
   pt:{
-    nav_cta:"Juntar-se a beta",nav_features:"Funcionalidades",nav_pricing:"Preços",nav_demo:"Demo",
+    nav_cta:"Juntar-se a beta",nav_features:"Funcionalidades",nav_pricing:"Preços",nav_demo:"Demo",pain_tag:"Antes do Shopmate.ia",pain_title:"Isso te <em>soa familiar?</em>",pain_p1:"Um cliente pergunta pelo pedido às 23h… você está dormindo.",pain_p2:"Você perde vendas respondendo à mesma pergunta.",pain_p3:"Suporte consome 2h/dia.",how_tag:"Como funciona",how_title:"No ar em <em>5 minutos</em>",how_s1:"Colar snippet",how_s1d:"Uma linha em theme.liquid.",how_s2:"Configurar",how_s2d:"2 minutos.",how_s3:"Bot ativo",how_s3d:"Respostas instantâneas 24/7.",faq_tag:"FAQ",faq_title:"Suas perguntas <em>respondidas</em>",faq_q1:"Quanto tempo?",faq_a1:"Menos de 5 minutos.",faq_q2:"Meu tema?",faq_a2:"Sim.",faq_q3:"Bot não responde?",faq_a3:"Escala para humano.",faq_q4:"Cancelar?",faq_a4:"Sim.",faq_q5:"Idiomas?",faq_a5:"15+.",
     hero_tag:"Agente IA de Suporte para Shopify",
     hero_sub:"Shopmate.ia responde aos seus clientes 24/7 - pedidos, devolucoes, recomendacoes - para que se concentre no crescimento.",
     hero_cta1:"Ver precos",hero_cta2:"Ver em acao",
